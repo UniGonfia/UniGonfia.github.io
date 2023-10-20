@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		
 		<meta charset="utf-8" />
 		<link rel="icon" href="./favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
-		<link rel="modulepreload" href="./_app/immutable/entry/start.b3076e33.js">
+		<link href="./_app/immutable/assets/0.28a7c379.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/2.855696dd.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.3ecb48a4.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.e108d1fd.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.4eae888f.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/paths.f673b3e2.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.e9cc70ce.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.13ed12de.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/paths.239e6af2.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.5de99b55.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.a21d6cee.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.18524db0.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/2.ba7f5a7d.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.51121680.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.892a7ae1.js">
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 	</head>
+
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">  <div class="presentation" data-svelte-h="svelte-1r6j4vy"><h1>Team Visa</h1> <p>Members: Leonardo Gonfiantini (S4844709)</p></div> <div class="description" data-svelte-h="svelte-1ks25ya">This site is divided in sections, each one containing a different assignment.
-    <br>
-    Every section is a dedicated page, and can be accessed from the navigation bar,
-    <br>
-    Everything is built using Svelte, Sveltekit, d3.js, and plain CSS.
-    <br>
-    The building in githubpages is done using a github action, and with the help of gh-pages.</div> <nav data-svelte-h="svelte-1askqxp"><a href="/Assignment1">Assignment 1 - Comparison</a> </nav> 
+		<div style="display: contents">  <div class="home svelte-1qtw8qr" data-svelte-h="svelte-b9gl9m"><div class="presentation svelte-1qtw8qr"><h1 class="svelte-1qtw8qr">Team Visa</h1> <p>Members: <a href="http://www.leonardogonfiantini.github.com">Leonardo Gonfiantini</a> (S4844709)</p></div> <div class="description svelte-1qtw8qr"><p>This site is divided into sections, can be accessed from the drop-down menu at the bottom, <br>
+            each section is an assignment and inside is a page dedicated to the exercise to be done.    <br>
+            The <strong class="svelte-1qtw8qr">svelte</strong> and <strong class="svelte-1qtw8qr">sveltekit</strong> framework was used to create this site, the styling is handled     <br>
+            in <strong class="svelte-1qtw8qr">CSS</strong> and the deployment of the application to the github pages is done using the <strong class="svelte-1qtw8qr">gh-pages</strong> library <br>
+            and the script found within the repository, as package manager <strong class="svelte-1qtw8qr">npm</strong> was used. <br> 
+            Subsequently everything will be deployed with a github-action.</p></div> <nav class="assignments svelte-1qtw8qr"><ul><li><a href="/Assignment1">Assignment 1 - Comparison</a></li></ul></nav> </div> 
 			
 			<script>
 				{
-					__sveltekit_14xrp4v = {
+					__sveltekit_epdyds = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
 					};
@@ -35,8 +43,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.b3076e33.js"),
-						import("./_app/immutable/entry/app.e9cc70ce.js")
+						import("./_app/immutable/entry/start.3ecb48a4.js"),
+						import("./_app/immutable/entry/app.5de99b55.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 2],
@@ -50,3 +58,4 @@
 		</div>
 	</body>
 </html>
+

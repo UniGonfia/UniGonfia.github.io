@@ -1,7 +1,0 @@
-import{s as T,n as c}from"../chunks/scheduler.e108d1fd.js";import{S,i as y,g as d,s as f,h as p,y as v,c as g,k as b,a,f as r}from"../chunks/index.a21d6cee.js";import{b as M}from"../chunks/paths.f673b3e2.js";const x=!0,k=Object.freeze(Object.defineProperty({__proto__:null,prerender:x},Symbol.toStringTag,{value:"Module"}));function L(_){let t,h="<h1>Team Visa</h1> <p>Members: Leonardo Gonfiantini (S4844709)</p>",l,n,m=`This site is divided in sections, each one containing a different assignment.
-    <br/>
-    Every section is a dedicated page, and can be accessed from the navigation bar,
-    <br/>
-    Everything is built using Svelte, Sveltekit, d3.js, and plain CSS.
-    <br/>
-    The building in githubpages is done using a github action, and with the help of gh-pages.`,o,s,u=`<a href="${M}/Assignment1">Assignment 1 - Comparison</a>`;return{c(){t=d("div"),t.innerHTML=h,l=f(),n=d("div"),n.innerHTML=m,o=f(),s=d("nav"),s.innerHTML=u,this.h()},l(e){t=p(e,"DIV",{class:!0,"data-svelte-h":!0}),v(t)!=="svelte-1r6j4vy"&&(t.innerHTML=h),l=g(e),n=p(e,"DIV",{class:!0,"data-svelte-h":!0}),v(n)!=="svelte-1ks25ya"&&(n.innerHTML=m),o=g(e),s=p(e,"NAV",{"data-svelte-h":!0}),v(s)!=="svelte-1askqxp"&&(s.innerHTML=u),this.h()},h(){b(t,"class","presentation"),b(n,"class","description")},m(e,i){a(e,t,i),a(e,l,i),a(e,n,i),a(e,o,i),a(e,s,i)},p:c,i:c,o:c,d(e){e&&(r(t),r(l),r(n),r(o),r(s))}}}class V extends S{constructor(t){super(),y(this,t,null,L,T,{})}}export{V as component,k as universal};
