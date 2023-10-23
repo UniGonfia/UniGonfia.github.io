@@ -7,11 +7,12 @@
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
-		"deploy": "vite build && node ./gh-pages.js"
+		"deploy": "vite build && node ./scripts/gh-pages.js"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
 		"@neoconfetti/svelte": "^1.0.0",
+		"@rollup/plugin-dsv": "^3.0.4",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-static": "^2.0.3",
 		"@sveltejs/kit": "^1.20.4",
