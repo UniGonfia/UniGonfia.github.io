@@ -81,7 +81,7 @@
         .call(g => g.select(".domain").remove())
         .call(g => g.append("text")
             .attr("x", - 150 )
-            .attr("y", 60)
+            .attr("y", 0)
             .attr("fill", "currentColor")
             .attr("text-anchor", "start")
             .text("↑ Quantity"));
