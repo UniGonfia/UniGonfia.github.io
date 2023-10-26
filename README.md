@@ -1,38 +1,7 @@
-# create-svelte
-
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+# Team Visa
+This is the repository for the Data Visualization project.
+## Team Members
+[Leonardo Gonfiantini](https://leonardogonfiantini.github.io) (S4844709)
+## Project Description
+In the src folder you can find the code for the project, the scripts folder contains the scripts used to clean the data form the original dataset.
+The original dataset is not included in the repository, but it can be found [here](https://www.kaggle.com/datasets/mexwell/5m-trees-dataset/code).
