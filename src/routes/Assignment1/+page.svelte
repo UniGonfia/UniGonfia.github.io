@@ -2,6 +2,10 @@
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
     import data_file from '$lib/data/assignment1.json';
+
+    import o_bar from '$lib/images/assignment1/o_bar.png';
+    import v_bar from '$lib/images/assignment1/v_bar.png';
+    import heatmap from '$lib/images/assignment1/heatmap.png';
     
     /*
         Data is like:
@@ -9,8 +13,8 @@
             scientific_name: "Acanthocephala",
             city: "Baltimore",
             state: "Maryland",
-            count: 1m
-            mean: 1
+            count: 1,
+            mean_height: 1 
         }
     */
 
@@ -20,8 +24,9 @@
       let data = data_file
 
       // Take only the data with city == Los Angeles
-      data = data.filter(d => d.city == "Greensboro")
-
+      data = data.filter(d => d.city == "Los Angeles")
+      //Take only top 10 count
+      data = data.filter((d) => d.count > 4000)
       // Sort the data by count
       data.sort((a, b) => b.count - a.count)
       console.log(data)
@@ -88,11 +93,50 @@
 
     });
 
-  </script>
+    /*
+      Grafico 1: Una citta con top 10 tipi di alberi, menu dropdown per selezionale la citta
+      Grafico 2: Piu citta insieme, dello stesso stato per esempio, con top 5 alberi
+      Grafico 3: Heatmap su alcune cittaf
+    */
+
+</script>
+
+<div class="assignment1">
+  <nav class="chart_nav"> 
+    <ul>
+      <li> <img src={v_bar} alt="v_bar" /> </li>
+      <li> <img src={o_bar} alt="o_bar" /> </li>
+      <li> <img src={heatmap} alt="heatmap" /> </li>
+    </ul>
+  </nav>
   
   <svg id="chart"></svg>
-  
-  <style>
+
+  <p class="explanation">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+    Repellat sunt dolorum ducimus est libero, doloremque neque,
+    vitae optio expedita illum id suscipit magni hic laboriosam. 
+    Error odit pariatur corrupti laudantium?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, 
+    veniam cupiditate aut porro libero illum dolores magnam minus, 
+    accusantium iste facere cum perspiciatis numquam quo eaque quos 
+    delectus, pariatur atque!
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, 
+    veniam cupiditate aut porro libero illum dolores magnam minus, 
+    accusantium iste facere cum perspiciatis numquam quo eaque quos 
+    delectus, pariatur atque!
+  </p>
+</div>
+
+<style>
+    .assignment1 {
+      position: absolute;
+      top: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: #333;
+    }
+
     svg {
       width: auto;
       height: 1000px;
@@ -102,6 +146,47 @@
       align-items: center;
       margin-left: 10rem;
       margin-top: 10rem;
+      color: wheat;
     }
+
+    .chart_nav {
+      position: absolute;
+      display: block;
+      top: 28vh;
+      left: 5%;
+    }
+
+    .chart_nav ul {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart_nav li {
+      display: flex;
+      list-style-type: none;
+      width: 80px;
+      height: 80px;
+      margin: 10px;
+      align-items: center;
+      justify-content: center;
+      background-color: wheat;
+      border: 4px solid black;
+      border-radius: 10%;
+    }
+
+    .chart_nav img {
+      width: 48px;
+      height: 48px;
+    }
+
+    .explanation {
+      position: absolute;
+      top: 28vh;
+      right: 5%;
+      width: 20rem;
+      color: wheat;
+
+    }
+
   </style>
   
