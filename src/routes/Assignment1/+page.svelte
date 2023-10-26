@@ -170,8 +170,14 @@
       align-items: center;
       justify-content: center;
       background-color: wheat;
-      border: 4px solid black;
+      border: 6px solid black;
       border-radius: 10%;
+    }
+
+    .chart_nav li:hover {
+      background-color: rgb(241, 204, 134);
+      border: 7px solid black;
+
     }
 
     .chart_nav img {
