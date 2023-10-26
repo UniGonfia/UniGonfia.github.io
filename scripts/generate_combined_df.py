@@ -1,14 +1,25 @@
 from pandas import concat, read_csv
 import glob
+import os
 
-df = concat([read_csv(filepath_or_buffer=input_file, parse_dates=['most_recent_observation', 'planted_date', 'retired_date'],
-                      low_memory=False,) for input_file in glob.glob('../data/*.csv')])
+if (os.path.exists('../data/full_dataset.csv')):
+    os.remove('../data/full_dataset.csv')
 
-## For first assignment ##
-# colums_to_remove = ['native', 'most_recent_observation', 'city_ID', 'tree_ID', 'planted_date', 'most_recent_observation_type',
-#                     'retired_date', 'longitude_coordinate', 'latitude_coordinate', 'neighborhood', 'ward', 'zipcode', 'district', 'address',
-#                     'location_name', 'percent_population', 'location_type', 'greater_metro']
-# df.drop(colums_to_remove, axis=1, inplace=True)
+df_list = []
+for dirname, _, filenames in os.walk('../data/'):
+    for filename in filenames:
+        file = os.path.join(dirname, filename)
+        if file.endswith('.csv'):
+            print(file)
+            df_tmp = read_csv(file)
+            df_list.append(df_tmp)
+df = concat(df_list, axis=0).drop_duplicates()
+
+# ## For first assignment ##
+selected_columns = ['scientific_name', 'common_name', 'city', 'state', 'height_M']
+df = df[selected_columns]
 
 
 df.to_csv('../data/full_dataset.csv', index=False)
+
+df.info()

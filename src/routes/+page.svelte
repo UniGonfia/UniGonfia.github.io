@@ -17,7 +17,8 @@
             The <strong> svelte </strong> and <strong> sveltekit </strong> framework was used to create this site, the styling is handled     <br>
             in <strong> CSS </strong> and the deployment of the application to the github pages is done using the <strong> gh-pages </strong> library
             and the script found within the repository, as package manager <strong> npm </strong> was used. <br> 
-            Subsequently everything will be deployed with a github-action.
+            Subsequently everything will be deployed with a github-action. <br>
+            The <strong>scripts</strong> folder in the repository also contains the various python scripts used to generate the datasets or the visualisations.
         </p>
     </div>
 
@@ -59,6 +60,10 @@
     .presentation h1 {
         font-size: xx-large;
         color: wheat;
+    }
+
+    .presentation a {
+        text-decoration: underline;
     }
 
     .description strong {
