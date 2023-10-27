@@ -33,7 +33,7 @@
 <style>
 
     .home {  
-        background-color: #333;
+        background-color: #364e51;
         color: #fff;
         height: 100vh;
     }
