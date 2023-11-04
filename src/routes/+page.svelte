@@ -24,7 +24,7 @@
 
     <nav class="assignments">
         <ul>
-            <li> <a href="{base}/Assignment1"> Assignment 1 - Comparison </a> </li>
+            <li> <a href="{base}/Assignment1"> Assignment 1 - Comparing Categories </a> </li>
         </ul>
     </nav>
 

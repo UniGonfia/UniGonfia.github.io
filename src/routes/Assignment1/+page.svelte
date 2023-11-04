@@ -5,21 +5,6 @@
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
     import data_file from '$lib/data/assignment1.json';
-
-    import o_bar from '$lib/images/assignment1/o_bar.png';
-    import v_bar from '$lib/images/assignment1/v_bar.png';
-    import heatmap from '$lib/images/assignment1/heatmap.png';
-    
-    /*
-        Data is like:
-        Object {
-            scientific_name: "Acanthocephala",
-            city: "Baltimore",
-            state: "Maryland",
-            count: 1,
-            mean_height: 1 
-        }
-    */
     
     $: active_chart = {
       v_bar: true,
@@ -59,6 +44,7 @@
       }, {});
 
       //clean the dropdown
+      dropdown.style.display = "block";
       dropdown.innerHTML = '';
 
       //clean chart
@@ -75,12 +61,12 @@
       v_barchart("Los Angeles");
 
       let text = `
-        This graph displays the top 10 tree species within a chosen city, 
-        which can be selected via a dropdown menu. The y-axis represents the tree count,
-        while the x-axis denotes the specific tree species. The graph is organized in descending order, 
-        showcasing the most prevalent tree species first and progressing to the less common ones.
-        The graph is interactive, allowing the user to hover over the bars to see the exact count of each tree species
-        and the average height if it is available.
+        This graph displays the top 10 tree species within a chosen city, which can be selected via a dropdown menu. 
+        The y-axis represents the tree count, while the x-axis denotes the specific tree species. 
+        
+        The graph is organized in descending order, showcasing the most prevalent tree species first and progressing to the less common ones.
+        
+        The graph is interactive, allowing the user to hover over the bars to see the exact count of each tree species and the average height if it is available.
       `
 
       const explanation = document.getElementById('explanation');
@@ -119,15 +105,21 @@
         .domain([0, d3.max(data, d => d.count)])
         .range([height - marginBottom, marginTop]);
   
-      svg.append("g")
-        .attr("fill", "#9ac9db")
-        .selectAll()
+      //animate the creation of bars
+      svg.selectAll("rect")
         .data(data)
-        .join("rect")
-          .attr("x", (d) => x(d.scientific_name))
-          .attr("y", (d) => y(d.count))
-          .attr("height", (d) => y(0) - y(d.count))
-          .attr("width", x.bandwidth());
+        .enter()
+        .append("rect")
+        .attr("x", d => x(d.scientific_name))
+        .attr("y", d => y(0))
+        .attr("width", x.bandwidth())
+        .attr("height", d => height - marginBottom - y(0))
+        .attr("fill", "#9ac9db")
+        .transition()
+        .duration(800)
+        .attr("y", d => y(d.count))
+        .attr("height", d => height - marginBottom - y(d.count))
+        .delay((d, i) => (i * 100))
         
       // x axis
       svg.append("g")
@@ -140,6 +132,11 @@
         .attr("dy", ".15em")
         .attr("transform", "rotate(-45)")
         .style("font-size", "1.2em")
+        .attr("opacity", 0)
+        .transition()
+        .duration(800)
+        .attr("opacity", 1)
+        .delay((d, i) => (i * 100))
 
 
       // y axis
@@ -147,6 +144,13 @@
         .attr("transform", `translate(${marginLeft},0)`)
         .call(d3.axisLeft(y).tickFormat((y) => (y).toFixed()))
         .call(g => g.select(".domain").remove())
+        .selectAll("text")
+        .style("font-size", "1.2em")
+        .attr("opacity", 0)
+        .transition()
+        .duration(800)
+        .attr("opacity", 1)
+        .delay((d, i) => (i * 100))
       
       // Title
       svg.append("text")
@@ -154,7 +158,6 @@
         .attr("y", marginTop - 50)
         .attr("text-anchor", "middle")  
         .style("font-size", "32px") 
-        .style("text-decoration", "underline")
         .style("fill", "wheat")  
         .text(`Top 10 trees species in ${city}`);
 
@@ -170,6 +173,11 @@
       
       svg.selectAll("rect")
         .on("mouseover", function(event, d) {
+
+          d3.select(this)
+            .style("fill", "#f1cc86")
+            
+
           tooltip.transition()
             .duration(200)
             .style("opacity", .9);
@@ -183,10 +191,15 @@
             .style("top", (event.pageY - 30) + "px");
         })
         .on("mouseout", function(d) {
+
+          d3.select(this)
+            .style("fill", "#9ac9db")
+
           tooltip.transition()
             .duration(500)
             .style("opacity", 0);
         });
+
 
     }
 
@@ -205,6 +218,7 @@
       }, {});
 
       //clean the dropdown
+      dropdown.style.display = "block";
       dropdown.innerHTML = '';
 
       //clean chart
@@ -212,6 +226,7 @@
       chart.innerHTML = '';
 
       Object.keys(states).forEach(state => {
+        if (state == "null") return;
         const option = document.createElement('option');
         option.value = state;
         option.innerText = state;
@@ -221,12 +236,15 @@
       o_barchart("California");
 
       let text = `
-        This graph displays the top 5 tree species within a chosen state, 
-        which can be selected via a dropdown menu. The y-axis represents the tree count,
-        while the x-axis denotes the specific tree species. The graph is organized in descending order, 
-        showcasing the most prevalent tree species first and progressing to the less common ones.
-        The graph is interactive, allowing the user to hover over the bars to see the exact count of each tree species
-        and the average height if it is available.
+        This graph represents for the chosen state the cities and their percentage presence of the top 5 species for each city.
+
+        It is useful to see first of all which species are present in a state but especially how much is the percentage of each species for each city, to check its diversity.
+
+        Unfortunately many cities within the dataset have not entered a state so many charts will have only a few cities, 
+        it is recommended to select: California, Hawaii, Florida and North Carolina.
+
+        Hovering the mouse over a rectangle will display its percentage and species.
+
       `
 
       const explanation = document.getElementById('explanation');
@@ -234,119 +252,381 @@
 
     }
 
-    function o_barchart(state) {
+    async function o_barchart(state) {
+      // Load the data from data_file
       let data = data_file;
-      //Take only data with state == state
-      data = data.filter(d => d.state == state)
-      //Take only the top 5 city with the sum of count, and the separate sum for each tree
-      data = data.reduce((acc, curr) => {
-        const city = curr.city;
-        const count = curr.count;
-        const scientific_name = curr.scientific_name;
-        const mean_height = curr.mean_height;
 
-        if (acc[city]) {
-          acc[city].count += count;
-          if (acc[city].trees[scientific_name]) {
-            acc[city].trees[scientific_name].count += count;
-            acc[city].trees[scientific_name].mean_height += mean_height;
-          } else {
-            acc[city].trees[scientific_name] = {
-              count: count,
-              mean_height: mean_height
-            }
-          }
-        } else {
-          acc[city] = {
-            count: count,
-            trees: {
-              [scientific_name]: {
-                count: count,
-                mean_height: mean_height
-              }
-            }
-          }
+      // Filter data for the selected state
+      data = data.filter(d => d.state == state);
+
+      // Group data by city and calculate percentages
+      const cityData = data.reduce((acc, curr) => {
+        if (!acc[curr.city]) {
+          acc[curr.city] = [];
         }
+        acc[curr.city].push(curr);
         return acc;
       }, {});
 
-      data = Object.keys(data).map(city => {
-        const count = data[city].count;
-        const trees = data[city].trees;
-        // take the top 5 trees
-        let tree_array = Object.keys(trees).map(scientific_name => {
-          const count = trees[scientific_name].count;
-          const mean_height = trees[scientific_name].mean_height;
-          return {
-            scientific_name: scientific_name,
-            count: count,
-            mean_height: mean_height
-          }
+      // Sort and limit each city's data to the top 5
+      for (const city in cityData) {
+        cityData[city].sort((a, b) => b.count - a.count);
+        cityData[city] = cityData[city].slice(0, 5);
+        const total = cityData[city].reduce((acc, curr) => acc + curr.count, 0);
+        cityData[city].forEach(d => {
+          d.percent = (d.count / total) * 100;
         });
-        tree_array.sort((a, b) => b.count - a.count)
-        tree_array = tree_array.slice(0, 5)
-        return {
-          city: city,
-          count: count,
-          trees: tree_array
+      }
+
+
+
+      // Flatten the data for chart rendering
+      data = Object.values(cityData).flatMap(city => city);
+
+      // Set chart dimensions and margins
+      const margin = { top: 120, right: 100, bottom: 120, left: 200 };
+      const width = 1200 - margin.left - margin.right;
+      const height = 700 - margin.top - margin.bottom;
+
+      // Extract unique city and species names
+      const cities = [...new Set(data.map(d => d.city))];
+      const species = [...new Set(data.map(d => d.scientific_name))];
+
+      // Create an SVG element for the chart
+      const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      // Create Y axis
+      const y = d3.scaleBand()
+        .domain(cities)
+        .range([0, height])
+        .padding([0.2])
+      
+      svg.append("g")
+        .call(d3.axisLeft(y).tickSizeOuter(0))
+        .selectAll("text")
+        .attr("class", "yax")
+
+      // Create X axis
+      const x = d3.scaleLinear()
+        .domain([0, 100])
+        .range([0, width]);
+
+      svg.append("g")
+        .call(d3.axisBottom(x));
+
+      // Define color scale
+      const color = d3.scaleOrdinal()
+        .domain(species)
+        .range([  
+          "#FFA07A", // Light Salmon
+          "#E0BBE4", // Pale Lavender
+          "#FFD700", // Gold
+          "#97E3D5", // Pale Turquoise
+          "#FFDDC1", // Pale Apricot
+          "#FFB6C1", // Light Pink
+          "#B5E7A0", // Pastel Green
+          "#FFC0CB", // Pink
+          "#A9D3A4", // Mint Green
+          "#C9C1BB", // Pale Gray
+          "#FF91A4", // Pastel Red
+          "#94D0CC", // Pale Teal
+          "#D4A5A5", // Soft Rose
+          "#C5E384", // Light Lime
+          "#B2A8E2"  // Lavender Blue
+        ]);
+
+      const citySpeciesData = [];
+      data.forEach((d) => {
+        let citySpeciesGroup = citySpeciesData.find((group) => group.city === d.city);
+
+        if (!citySpeciesGroup) {
+          citySpeciesGroup = {
+            city: d.city,
+            percentages: [],
+          };
+          citySpeciesData.push(citySpeciesGroup);
         }
+
+        citySpeciesGroup.percentages.push({
+          name: d.scientific_name,
+          value: d.percent,
+        });
       });
 
-      //Take only top 5 count
-      data.sort((a, b) => b.count - a.count)
-      data = data.slice(0, 5)
+      // Create a stacked bar chart
+      const series = d3.stack()
+        .keys(species)
+        .value((d, key) => {
+          const percentage = d.percentages.find(p => p.name === key);
+          return percentage ? percentage.value : 0;
+        })(citySpeciesData);
 
-      //graph with 5 bar for each city repersenting the top 5 tree the barchart is horizontal
-      // Declare the chart dimensions and margins.
-      const width = 1200;
-      const height = 700;
-      const marginTop = 120;
-      const marginRight = 100;
-      const marginBottom = 100;
-      const marginLeft = 100;
+      const bars = svg.selectAll(".bar")
+        .data(series)
+        .enter()
+        .append("g")
+        .attr("class", "bar")
+        .attr("fill", d => color(d.key));
 
-      const svg = d3.select('#chart')
-        .attr('width', width)
-        .attr('height', height)
-        .attr("viewBox", [0, 0, width + 200, height + 200])
-        .attr("style", "max-width: 100%; height: auto;");
+      bars.selectAll("rect")
+      .data(d => d)
+      .enter()
+      .append("rect")
+      .attr("y", d => y(d.data.city))
+      .attr("x", d => x(0))
+      .attr("width", d => x(0))
+      .attr("height", y.bandwidth())
+      .attr("class", "barrect")
+      .transition()
+      .duration(800)
+      .attr("x", d => x(d[0]))
+      .attr("width", d => x(d[1]) - x(d[0]))
+      .delay((d, i) => (i * 100))
 
-      const x = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.count)])
-        .range([marginLeft, width - marginRight]);
-      
-      const y = d3.scaleBand()
-        .domain(d3.map(data, d => d.city))
-        .range([height - marginBottom, marginTop])
-        .padding(0.1);
-      
-      // x axis
-      svg.append("g")
-        .attr("fill", "#9ac9db")
-        .selectAll()
-        .data(data)
-        .join("rect")
-          .attr("x", marginLeft)
-          .attr("y", (d) => y(d.city))
-          .attr("width", (d) => x(d.count) - x(0))
-          .attr("height", y.bandwidth());
-      
-      // y axis
-      svg.append("g")
-        .attr("transform", `translate(${marginLeft},0)`)
-        .call(d3.axisLeft(y).tickSizeOuter(0))
 
-      // Title
+      //put the x axis to the tob of the x axis
+      svg.selectAll(".tick text")
+        .attr("transform", "translate(0,-30)");
+
+      svg.selectAll(".yax")
+        .attr("transform", "translate(0,0)");
+
+      const speciesColors = {};
+      data.forEach((d) => {
+        speciesColors[d.scientific_name] = color(d.scientific_name);
+      });
+
+      // Create an SVG group for the legend
+      const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${0}, ${height + 10})`)
+
+      // Create legend items
+      const legendItems = legend.selectAll(".legend-item")
+        .data(Object.entries(speciesColors))
+        .enter()
+        .append("g")
+        .attr("class", "legend-item")
+        .attr("transform", (d, i) => `translate(${i % 3 * 350}, ${Math.floor(i / 3) * 20})`);
+
+      // Create colored squares in the legend
+      legendItems.append("rect")
+        .attr("width", 16) 
+        .attr("height", 16)
+        .style("fill", d => d[1]);
+
+      // Add text labels to the legend
+      legendItems.append("text")
+        .attr("x", 24) 
+        .attr("y", 15) 
+        .text(d => d[0])
+        .attr("class", "legend-text")
+        .attr("fill", "wheat")
+
+      // Add chart title
       svg.append("text")
-        .attr("x", (width / 2))             
-        .attr("y", marginTop - 50)
-        .attr("text-anchor", "middle")  
-        .style("font-size", "32px") 
-        .style("text-decoration", "underline")
-        .style("fill", "wheat")  
-        .text(`Top 5 trees species in ${state}`);
-      
+        .attr("class", "chart-title")
+        .attr("x", width / 2)
+        .attr("y", -margin.top / 2)
+        .style("text-anchor", "middle")
+        .style("fill", "wheat")
+        .style("font-size", "32px")
+        .text("Horizontal Stacked Bar Chart for Cities and Species");
+
       //Add on hover data
+      const tooltip = d3.select("body")
+      .append("div")
+      .style("position", "absolute")
+      .style("background-color", "wheat")
+      .style("color", "#364e51")
+      .style("border-radius", "5px")
+      .style("padding", "10px")
+      .style("opacity", 0);
+      
+      svg.selectAll(".barrect")
+      .on("mouseover", function(event, d) {
+
+          d3.select(this)
+            .attr("y", d => y(d.data.city) - 5)
+            .attr("stroke-width", 4)
+            .attr("stroke", "black")
+
+          const species = d3.select(this.parentNode).datum().key;
+
+          tooltip.transition()
+            .duration(100)
+            .style("opacity", 0.9);
+          
+          tooltip
+            .html(`
+              Species: ${species} <br>
+              Value: ${(d[1] - d[0]).toFixed(2)}%
+            `)
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY - 30) + "px");
+      })
+      .on("mouseout", function(d) {
+
+        d3.select(this)
+          .attr("y", d => y(d.data.city))
+          .attr("stroke-width", 0)
+
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0);
+      });
+
+    }
+
+    function button_heatmap() {
+      active_chart = {
+        v_bar: false,
+        o_bar: false,
+        heatmap: true
+      }
+
+      const dropdown = document.getElementById('dropdown');
+      dropdown.innerHTML = '';
+      dropdown.style.display = "none";
+      
+      //clean chart
+      const chart = document.getElementById('chart');
+      chart.innerHTML = '';
+
+      heatmap("Acer negundo");
+
+      let text = `
+        This graph represents a heatmap, on the x-axis we have the top 10 species by count, 
+        obtained by ranking over all the data, and on the y-axis the top 10 cities also by count 
+        over all the data. 
+
+        It is useful to understand which are the most important species in the
+        most important cities. 
+        
+        Hovering the mouse over the square will show which species it is, the city, and the total count.
+      `
+
+      const explanation = document.getElementById('explanation');
+      explanation.innerText = text;
+
+
+    }
+
+    function heatmap() {
+      const data = data_file;
+
+      //take top 10 cities by total count
+      const cities = data.reduce((acc, curr) => {
+        if (!acc[curr.city]) {
+          acc[curr.city] = 0;
+        }
+        acc[curr.city] += curr.count;
+        return acc;
+      }, {});
+
+      const top_cities = Object.keys(cities).sort((a, b) => cities[b] - cities[a]).slice(0, 10);
+
+      //take top 10 species by total count
+      const species = data.reduce((acc, curr) => {
+        if (!acc[curr.scientific_name]) {
+          acc[curr.scientific_name] = 0;
+        }
+        acc[curr.scientific_name] += curr.count;
+        return acc;
+      }, {});
+
+      const top_species = Object.keys(species).sort((a, b) => species[b] - species[a]).slice(0, 10);
+
+      //create a heatmap matrix
+      let matrix = []
+      for (let i = 0; i < top_cities.length; i++) {
+        for (let j = 0; j < top_species.length; j++) {
+          matrix.push({
+            city: top_cities[i],
+            specie: top_species[j],
+            count: data.filter(d => d.city == top_cities[i] && d.scientific_name == top_species[j]).reduce((acc, curr) => acc + curr.count, 0) 
+          })
+        }
+      }
+
+      // Set chart dimensions and margins
+      const margin = { top: 100, right: 300, bottom: 200, left: 200 };
+      const width = 1200 + margin.left;
+      const height = 800 + margin.top;
+
+      // Create an SVG element for the chart
+      const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+
+      const x = d3.scaleBand()
+        .range([margin.left, width - margin.right])
+        .domain(top_species)
+        .padding(0.01);
+      svg.append("g")
+        .style("font-size", 15)
+        .call(d3.axisBottom(x).tickSize(0))
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .selectAll(".tick text")
+        .attr("class", "xax")
+        .select(".domain").remove()
+
+      svg.selectAll(".xax")
+        .attr("transform", "rotate(-45) translate(-10, -10)")
+        .attr("text-anchor", "end")
+
+      const y = d3.scaleBand()
+        .range([margin.top, height - margin.bottom])
+        .domain(top_cities)
+        .padding(0.01)
+
+      svg.append("g")
+        .style("font-size", 15)
+        .call(d3.axisLeft(y).tickSize(0))
+        .attr("transform", `translate(${margin.left},0)`)
+        .selectAll(".tick text")
+        .attr("class", "yax")
+        .select(".domain").remove()
+
+      svg.append("text")
+        .attr("class", "chart-title")
+        .attr("x", width / 2 - 70)
+        .attr("y", 30)
+        .style("text-anchor", "middle")
+        .style("fill", "wheat")
+        .style("font-size", "32px")
+        .text("Heatmap for Top 10 Cities with Top 10 Species");
+
+      const colorScale = d3.scaleSequential()
+        .domain([0, d3.max(matrix, d => d.count)])
+        .interpolator(d3.interpolateBlues)
+
+      svg.selectAll()
+        .data(matrix, function(d) {return d.city+':'+d.specie;})
+        .enter()
+        .append("rect")
+          .attr("x", function(d) { return x(d.specie) })
+          .attr("y", function(d) { return y(d.city) })
+          .attr("rx", 4)
+          .attr("ry", 4)
+          .attr("width", x.bandwidth() )
+          .attr("height", y.bandwidth() )
+          .style("stroke-width", 4)
+          .style("stroke", "none")
+          .style("fill", function(d) { return colorScale(d.count)} )
+          .style("opacity", 0)
+          .transition()
+          .duration(800)
+          .style("opacity", 1)
+          .delay((d, i) => (Math.random() * 1000))
+
+      //tooltip
       const tooltip = d3.select("body")
         .append("div")
         .style("position", "absolute")
@@ -355,57 +635,70 @@
         .style("border-radius", "5px")
         .style("padding", "10px")
         .style("opacity", 0);
-
+      
       svg.selectAll("rect")
         .on("mouseover", function(event, d) {
+
+          //add border to the rect
+          d3.select(this)
+            .style("stroke-width", 4)
+            .style("stroke", "black")
+
           tooltip.transition()
             .duration(200)
             .style("opacity", .9);
+
           tooltip
             .html(`
-              Species: ${d.scientific_name} <br>
-              Count: ${d.count} <br>
-              Average height: ${d.mean_height ? d.mean_height.toFixed(2) : "N/A"}
+              City: ${d.city} <br>
+              Species: ${d.specie} <br>
+              Count: ${d.count}
             `)
             .style("left", (event.pageX + 30) + "px")
-            .style("top", (event.pageY - 30) + "px");
+            .style("top", (event.pageY - 30) + "px")
         })
         .on("mouseout", function(d) {
+
+          //remove border from the rect
+          d3.select(this)
+            .style("stroke-width", 0)
+
           tooltip.transition()
             .duration(500)
             .style("opacity", 0);
         });
+          
 
-
-
-
+        
+  
+      
     }
 
     onMount(async () => {
         button_v_barchart();
     });
 
-    /*
-      Grafico 1: Una citta con top 10 tipi di alberi, menu dropdown per selezionale la citta
-      Grafico 2: Piu citta insieme, dello stesso stato per esempio, con top 5 alberi
-      Grafico 3: Heatmap su alcune cittaf
-    */
 
 </script>
 
 <div class="assignment1">
+
+  <div class="backhome">
+    <a href="/"> &#x2190 Home </a>
+  </div>
+
   <div class="container">
     <nav class="chart_nav"> 
       <ul>
         <li> <button on:click={button_v_barchart}> <div class="icon"> <FaRegChartBar /> </div> </button> </li>
-        <li> <div class="icon"> <FaBuromobelexperte/> </div> </li>
+        <li> <button on:click={button_heatmap}> <div class="icon"> <FaBuromobelexperte/> </div> </button> </li>
         <li> <button on:click={button_o_barchart}> <div class="icon rotate"> <FaRegChartBar/> </div> </button> </li>
       </ul>
     </nav>
     
     <svg id="chart"></svg>
 
-    <div>
+    <div class="stuff">
       <select id="dropdown" class="dropdown" on:change={select_change}>
       </select>
       
@@ -428,6 +721,16 @@
       flex-direction: row;
 
       background-color: #364e51;
+    }
+
+    .backhome {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+    }
+
+    .backhome a {
+      font-size: 1.5em;
     }
 
     .container {
@@ -516,36 +819,39 @@
       text-align: center;
     }
 
-    @media screen and (max-width: 1300px) {
+    @media screen and (max-width: 1320px) {
       .container {
-        flex-direction: column;
+        flex-direction: row;
       }
 
       svg {
-        width: 90rem;
+        width: 100%;
+      }
+
+      .stuff {
+        flex-direction: column;
+        margin-left: -4rem;
       }
 
       .explanation {
-        width: 90vw;
+        width: 25vw;
         margin-left: 0;
-        margin-top: 4rem;
+        margin-top: 0rem;
+      }
+
+      .dropdown {
+        width: 20vw;
+        margin-left: 0;
+        margin-bottom: 0rem;
       }
 
       .chart_nav ul {
-        flex-direction: row;
+        flex-direction: column;
         margin-bottom: 5rem;
       }
 
-      .chart_nav li {
-        width: 64px;
-        height: 64px;
-      }
 
-      .chart_nav .icon {
-        width: 32px;
-        height: 32px;
-      }
     }
 
-  </style>
+</style>
   
