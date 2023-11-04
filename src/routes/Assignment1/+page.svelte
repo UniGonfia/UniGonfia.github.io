@@ -52,6 +52,7 @@
       chart.innerHTML = '';
 
       Object.keys(cities).forEach(city => {
+        if (city == "null") return;
         const option = document.createElement('option');
         option.value = city;
         option.innerText = city;
@@ -217,6 +218,18 @@
         return acc;
       }, {});
 
+      // Calculate how many city there are in a state and remove the one with just one city
+      Object.keys(states).forEach(state => {
+        if (state == "null") return;
+        const cities = data.filter(d => d.state == state).reduce((acc, curr) => {
+          acc[curr.city] = true;
+          return acc;
+        }, {});
+        if (Object.keys(cities).length == 1) {
+          delete states[state];
+        }
+      });
+
       //clean the dropdown
       dropdown.style.display = "block";
       dropdown.innerHTML = '';
@@ -233,15 +246,15 @@
         dropdown.appendChild(option);
       });
 
-      o_barchart("California");
+      o_barchart("New York");
 
       let text = `
         This graph represents for the chosen state the cities and their percentage presence of the top 5 species for each city.
 
         It is useful to see first of all which species are present in a state but especially how much is the percentage of each species for each city, to check its diversity.
+        The percentage is calculated on the total of the top 5 species for a single city.
 
-        Unfortunately many cities within the dataset have not entered a state so many charts will have only a few cities, 
-        it is recommended to select: California, Hawaii, Florida and North Carolina.
+        The state with just one city is not shown.
 
         Hovering the mouse over a rectangle will display its percentage and species.
 
@@ -278,15 +291,13 @@
         });
       }
 
-
-
       // Flatten the data for chart rendering
       data = Object.values(cityData).flatMap(city => city);
 
       // Set chart dimensions and margins
-      const margin = { top: 120, right: 100, bottom: 120, left: 200 };
+      const margin = { top: 120, right: 100, bottom: 150, left: 200 };
       const width = 1200 - margin.left - margin.right;
-      const height = 700 - margin.top - margin.bottom;
+      const height = 800 - margin.top - margin.bottom;
 
       // Extract unique city and species names
       const cities = [...new Set(data.map(d => d.city))];
