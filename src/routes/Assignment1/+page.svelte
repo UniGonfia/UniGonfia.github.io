@@ -844,7 +844,7 @@
 
 
       const x = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.count)])
+        .domain([0, d3.max(data, function(d) { return total_count[d.city]})])
         .range([0, width]);
 
       const y = d3.scaleBand()
@@ -911,13 +911,14 @@
         .join("rect")
         .attr("x", 0)
         .attr("y", d => ySubGroups(d.key))
-        .attr("width", d => x(d.value))
+        .attr("width", d => x(0))
         .attr("height", ySubGroups.bandwidth())
         .attr("fill", d => color(d.key))
         .attr("class", "barrect")
         .transition()
         .duration(800)
-        .delay((d, i) => i * 100);
+        .attr("width", d => x(d.value))
+        .delay((d, i) => (i * 100))
 
 
         //Add title
