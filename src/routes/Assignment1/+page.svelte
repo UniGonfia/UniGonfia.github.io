@@ -339,6 +339,8 @@
         .call(d3.axisLeft(y).tickSizeOuter(0))
         .selectAll("text")
         .attr("class", "yax")
+        .style("font-size", "1em");
+
 
       // Create X axis
       const x = d3.scaleLinear()
@@ -587,6 +589,7 @@
         .call(d3.axisLeft(y).tickSizeOuter(0))
         .selectAll("text")
         .attr("class", "yax")
+        .style("font-size", "1em");
 
       // Define color scale
       const color = d3.scaleOrdinal()
@@ -652,7 +655,8 @@
 
         svg.append("g")
         .attr("transform", `translate(${margin.left}, ${height + margin.top})`)
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x))
+        
 
       const bars = svg.selectAll(".bar")
         .data(series)
@@ -802,15 +806,11 @@
       data = Object.values(cityData).flatMap(city => city);
 
       // Set chart dimensions and margins
-      const margin = { top: 120, right: 100, bottom: 150, left: 200 };
+      const margin = { top: 200, right: 100, bottom: 100, left: 200 };
       const width = 1200 - margin.left - margin.right;
-      const height = 800 - margin.top - margin.bottom;
+      const height = 900 - margin.top - margin.bottom;
 
-      // Extract unique city and species names
-      const cities = [...new Set(data.map(d => d.city))];
-      const species = [...new Set(data.map(d => d.scientific_name))];
-
-      //Fin the top three species by count from all the cities 
+      // Find the top three species by count from all the cities
       const top_three_species = data.reduce((acc, curr) => {
         if (!acc[curr.scientific_name]) {
           acc[curr.scientific_name] = 0;
@@ -819,12 +819,105 @@
         return acc;
       }, {});
 
-      const top_three = Object.keys(top_three_species).sort((a, b) => top_three_species[b] - top_three_species[a]).slice(0, 3);
+      // Calculate the total count for each city and store in a separate array
+      const total_count = data.reduce((acc, curr) => {
+        if (!acc[curr.city]) {
+          acc[curr.city] = 0;
+        }
+        acc[curr.city] += curr.count;
+        return acc;
+      }, {});
 
-      console.log(top_three);
+      let top_three = Object.keys(top_three_species)
+        .sort((a, b) => top_three_species[b] - top_three_species[a])
+        .slice(0, 3);
+      
+      data = data.filter(d => top_three.includes(d.scientific_name));
+
+      // Take the top 10 cities by total count
+      const top_cities = Object.keys(total_count)
+        .sort((a, b) => total_count[b] - total_count[a])
+        .slice(0, 10);
+
+      data = data.filter(d => top_cities.includes(d.city));
+      const cities = [...new Set(data.map(d => d.city))];
 
 
+      const x = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.count)])
+        .range([0, width]);
 
+      const y = d3.scaleBand()
+        .domain(cities)
+        .range([0, height])
+        .padding([0.2]);
+
+      // Create an SVG element for the chart
+      const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+      // Color palette = one color per subgroup
+      const color = d3.scaleOrdinal()
+        .domain(top_three)
+        .range([
+          "#97E3D5", // Pale Turquoise
+          "#FFDDC1", // Pale Apricot
+          "#FFB6C1", // Light Pink
+          "#B5E7A0", // Pastel Green
+        ]);
+
+      // x-axis
+      svg.append("g")
+        .attr("transform", `translate(${margin.left}, ${height + margin.top})`)
+        .call(d3.axisBottom(x).ticks(5))
+        .selectAll("text")
+        .attr("class", "xax");
+
+      // y-axis
+      svg.append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`)
+        .call(d3.axisLeft(y).tickSizeOuter(0))
+        .selectAll("text")
+        .attr("class", "yax")
+        .style("font-size", "1.2em");
+
+      top_three.push("Total");
+      cities.forEach(city => {
+        data.push({
+          city: city,
+          scientific_name: "Total",
+          count: total_count[city],
+        });
+      });
+
+      const ySubGroups = d3.scaleBand()
+        .domain(top_three)
+        .range([0, y.bandwidth()])
+        .padding([0.05]);
+
+      // Show the bars
+      svg.append("g")
+        .selectAll("g")
+        // Enter in data = loop group per group
+        .data(data)
+        .join("g")
+        .attr("transform", d => `translate(${margin.left}, ${y(d.city) + margin.top})`)
+        .selectAll("rect")
+        .data(function (d) {
+          return [{ key: d.scientific_name, value: d.count }];
+        })
+        .join("rect")
+        .attr("x", 0)
+        .attr("y", d => ySubGroups(d.key))
+        .attr("width", d => x(d.value))
+        .attr("height", ySubGroups.bandwidth())
+        .attr("fill", d => color(d.key))
+        .attr("class", "barrect")
+        .transition()
+        .duration(800)
+        .delay((d, i) => i * 100);
     }
 
     function button_heatmap() {
