@@ -591,6 +591,7 @@
         .attr("class", "yax")
         .style("font-size", "1em");
 
+
       // Define color scale
       const color = d3.scaleOrdinal()
         .domain(species)
@@ -654,7 +655,7 @@
         .range([0, width]);
 
         svg.append("g")
-        .attr("transform", `translate(${margin.left}, ${height + margin.top})`)
+        .attr("transform", `translate(${margin.left}, ${height + margin.top })`)
         .call(d3.axisBottom(x))
         
 
@@ -683,7 +684,7 @@
 
       //put the x axis to the tob of the x axis
       svg.selectAll(".tick text")
-        .attr("transform", "translate(0,-30)");
+        .attr("transform", "translate(0,10)");
 
       svg.selectAll(".yax")
         .attr("transform", "translate(0,0)");
@@ -696,7 +697,7 @@
       // Create an SVG group for the legend
       const legend = svg.append("g")
         .attr("class", "legend")
-        .attr("transform", `translate(${margin.left}, ${height + 150})`)
+        .attr("transform", `translate(${margin.left}, ${height + 170})`)
 
       // Create legend items
       const legendItems = legend.selectAll(".legend-item")
