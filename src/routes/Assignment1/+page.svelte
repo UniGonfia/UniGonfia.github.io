@@ -918,6 +918,88 @@
         .transition()
         .duration(800)
         .delay((d, i) => i * 100);
+
+
+        //Add title
+        svg.append("text")
+        .attr("class", "chart-title")
+        .attr("x", (width+margin.left+margin.right) / 2 + 50)
+        .attr("y", margin.top / 2)
+        .style("text-anchor", "middle")
+        .style("fill", "wheat")
+        .style("font-size", "32px")
+        .text("Horizontal Stacked Bar Chart for subgroups with total");
+
+        // Add legend
+        const legend = svg.append("g")
+          .attr("class", "legend")
+          .attr("transform", `translate(${width/2}, ${margin.top - 50})`)
+
+        // Create legend items
+        const legendItems = legend.selectAll(".legend-item")
+          .data(Object.entries(color.domain()))
+          .enter()
+          .append("g")
+          .attr("class", "legend-item")
+          .attr("transform", (d, i) => `translate(${i % 2 * 350}, ${Math.floor(i / 2) * 20})`);
+
+        // Create colored squares in the legend
+        legendItems.append("rect")
+          .attr("width", 16) 
+          .attr("height", 16)
+          .style("fill", d => color(d[1]));
+
+        // Add text labels to the legend
+        legendItems.append("text")
+          .attr("x", 24) 
+          .attr("y", 15) 
+          .text(d => d[1])
+          .attr("class", "legend-text")
+          .attr("fill", "wheat")
+          .style("font-size", "1em")
+
+        //Add on hover data
+        const tooltip = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("background-color", "wheat")
+        .style("color", "#364e51")
+        .style("border-radius", "5px")
+        .style("padding", "10px")
+        .style("opacity", 0);
+
+        svg.selectAll(".barrect")
+          .on("mouseover", function(event, d) {
+
+            d3.select(this)
+              .attr("y", d => ySubGroups(d.key) - 5)
+              .attr("stroke-width", 4)
+              .attr("stroke", "black")
+
+            tooltip.transition()
+              .duration(100)
+              .style("opacity", 0.9);
+            
+            tooltip
+              .html(`
+                Species: ${d.key} <br>
+                Count: ${d.value}
+              `)
+              .style("left", (event.pageX + 30) + "px")
+              .style("top", (event.pageY - 30) + "px");
+          })
+          .on("mouseout", function(d) {
+
+            d3.select(this)
+              .attr("y", d => ySubGroups(d.key))
+              .attr("stroke-width", 0)
+
+            tooltip.transition()
+              .duration(500)
+              .style("opacity", 0);
+          });
+
+
     }
 
     function button_heatmap() {
