@@ -37,10 +37,7 @@
 
       } else if (active_chart.heatmap) {
         heatmap(value);
-
-      } else if (active_chart.heatmap) {
-        heatmap(value);
-      }
+      } 
     }
       
     function button_v_barchart() {
@@ -65,6 +62,9 @@
       const chart = document.getElementById('chart');
       chart.innerHTML = '';
 
+      const dropdown_o = document.getElementById('dropdown_o');
+      dropdown_o.style.display = "none";
+
       Object.keys(cities).forEach(city => {
         if (city == "null") return;
         const option = document.createElement('option');
@@ -73,7 +73,7 @@
         dropdown.appendChild(option);
       });
 
-      v_barchart("Los Angeles");
+      v_barchart("New York");
 
       let text = `
         This graph displays the top 10 tree species within a chosen city, which can be selected via a dropdown menu. 
@@ -284,6 +284,20 @@
     }
 
     function o_barchart_percent(state) {
+
+      let text = `
+              This graph represents for the chosen state the cities and their percentage presence of the top 5 species for each city.
+              The percentage is calculated on the total of the top 5 species for a single city.
+
+              It is useful to see first of all which species are present in a state but especially how much is the percentage of each species for each city, to check its diversity.
+
+              The state with just one city is not shown.
+
+              Hovering the mouse over a rectangle will display its percentage and species.
+            `
+
+      const explanation = document.getElementById('explanation');
+      explanation.innerText = text;
       // Load the data from data_file
       let data = data_file;
 
@@ -417,7 +431,7 @@
       .duration(800)
       .attr("x", d => x(d[0]))
       .attr("width", d => x(d[1]) - x(d[0]))
-      .delay((d, i) => (i * 100))
+      .delay((d, i) => (i * 50))
 
 
       //put the x axis to the tob of the x axis
@@ -534,6 +548,20 @@
     }
 
     function o_barchart_count(state) {
+
+      let text = `
+              In this graph we can see the actual number of species for each city in the selected state. 
+              For each city the top 5 species are shown.
+              This unlike the percentage graph gives us a clearer idea of the amount of species for each city.
+
+              The state with just one city is not shown.
+
+              Hovering the mouse over a rectangle will display its count and species.
+            `
+
+      const explanation = document.getElementById('explanation');
+      explanation.innerText = text;
+
       // Load the data from data_file
       let data = data_file;
 
@@ -680,7 +708,7 @@
         .duration(800)
         .attr("x", d => x(d[0]))
         .attr("width", d => x(d[1]) - x(d[0]))
-        .delay((d, i) => (i * 100))
+        .delay((d, i) => (i * 50))
 
       //put the x axis to the tob of the x axis
       svg.selectAll(".tick text")
@@ -778,6 +806,19 @@
     }
 
     function o_barchart_multiple(state) {
+      let text = `
+      Instead, in this graph we compare more closely the top 3 species in the chosen state, and the actual quantity in each city.
+      In addition, the green bar indicates the total amount of trees in that city, so from here we can also see how many there actually are compared to the total.
+
+      The graph has been filtered to make the visualisation clearer, in particular those cities that did not have at least one of the top 3 species calculated for the state have been removed, and the top 10 cities by total have been taken, because for Iowa, for example, too many cities appeared that did not allow a clear comparison.
+
+      Hovering the mouse over a rectangle will display its count and species.
+      
+      `
+
+      const explanation = document.getElementById('explanation');
+      explanation.innerText = text;
+
       // Load the data from data_file
       let data = data_file;
 
@@ -1014,6 +1055,9 @@
       const dropdown = document.getElementById('dropdown');
       dropdown.innerHTML = '';
       dropdown.style.display = "none";
+
+      const dropdown_o = document.getElementById('dropdown_o');
+      dropdown_o.style.display = "none";
       
       //clean chart
       const chart = document.getElementById('chart');
