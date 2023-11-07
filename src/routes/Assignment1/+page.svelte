@@ -266,28 +266,12 @@
 
       o_barchart_percent("New York");
 
-      let text = `
-        This graph represents for the chosen state the cities and their percentage presence of the top 5 species for each city.
-
-        It is useful to see first of all which species are present in a state but especially how much is the percentage of each species for each city, to check its diversity.
-        The percentage is calculated on the total of the top 5 species for a single city.
-
-        The state with just one city is not shown.
-
-        Hovering the mouse over a rectangle will display its percentage and species.
-
-      `
-
-      const explanation = document.getElementById('explanation');
-      explanation.innerText = text;
-
     }
 
     function o_barchart_percent(state) {
 
       let text = `
               This graph represents for the chosen state the cities and their percentage presence of the top 5 species for each city.
-              The percentage is calculated on the total of the top 5 species for a single city.
 
               It is useful to see first of all which species are present in a state but especially how much is the percentage of each species for each city, to check its diversity.
 
@@ -313,22 +297,41 @@
         return acc;
       }, {});
 
-      // Sort and limit each city's data to the top 5
+      //Take the only top5 species but calculate the percentage to the total, add a new field to the object for the other
       for (const city in cityData) {
+        const total = cityData[city].reduce((acc, curr) => acc + curr.count, 0);
+
         cityData[city].sort((a, b) => b.count - a.count);
         cityData[city] = cityData[city].slice(0, 5);
-        const total = cityData[city].reduce((acc, curr) => acc + curr.count, 0);
+
         cityData[city].forEach(d => {
           d.percent = (d.count / total) * 100;
         });
       }
 
+      for (const city in cityData) {
+        const total = cityData[city].reduce((acc, curr) => acc + curr.percent, 0);
+        cityData[city].push({
+          city: city,
+          scientific_name: "Other",
+          percent: 100 - total,
+        });
+      }
+
+      //order the data
+      for (const city in cityData) {
+        cityData[city].sort((a, b) => a.percent - b.percent);
+      }
+
+
       // Flatten the data for chart rendering
       data = Object.values(cityData).flatMap(city => city);
 
+
+
       // Set chart dimensions and margins
-      const margin = { top: 120, right: 100, bottom: 150, left: 200 };
-      const width = 1200 - margin.left - margin.right;
+      const margin = { top: 120, right: 100, bottom: 150, left: 100 };
+      const width = 1300 - margin.left - margin.right;
       const height = 800 - margin.top - margin.bottom;
 
       // Extract unique city and species names
@@ -377,7 +380,7 @@
           "#B5E7A0", // Pastel Green
           "#FFC0CB", // Pink
           "#A9D3A4", // Mint Green
-          "#C9C1BB", // Pale Gray
+          "#C3D1FB",  //Soft Violet 
           "#FF91A4", // Pastel Red
           "#94D0CC", // Pale Teal
           "#D4A5A5", // Soft Rose
@@ -404,19 +407,24 @@
       });
 
       // Create a stacked bar chart
-      const series = d3.stack()
+      let series = d3.stack()
         .keys(species)
         .value((d, key) => {
-          const percentage = d.percentages.find(p => p.name === key);
-          return percentage ? percentage.value : 0;
-        })(citySpeciesData);
+          const percent = d.percentages.find(p => p.name === key);
+          return percent ? percent.value : 0;
+        })
+        .order(d3.stackOrderAscending)(citySpeciesData);
 
+      
+      
+
+      
       const bars = svg.selectAll(".bar")
         .data(series)
         .enter()
         .append("g")
         .attr("class", "bar")
-        .attr("fill", d => color(d.key));
+        .attr("fill", d => d.key != "Other" ? color(d.key) : "lightgrey");
 
       bars.selectAll("rect")
       .data(d => d)
@@ -443,7 +451,11 @@
 
       const speciesColors = {};
       data.forEach((d) => {
-        speciesColors[d.scientific_name] = color(d.scientific_name);
+        if (d.scientific_name == "Other") {
+          speciesColors[d.scientific_name] = "lightgrey";
+        } else {
+          speciesColors[d.scientific_name] = color(d.scientific_name);
+        }
       });
 
       // Create an SVG group for the legend
@@ -551,7 +563,6 @@
 
       let text = `
               In this graph we can see the actual number of species for each city in the selected state. 
-              For each city the top 5 species are shown.
               This unlike the percentage graph gives us a clearer idea of the amount of species for each city.
 
               The state with just one city is not shown.
@@ -581,9 +592,15 @@
       for (const city in cityData) {
         cityData[city].sort((a, b) => b.count - a.count);
         cityData[city] = cityData[city].slice(0, 5);
+      }
+
+      // Add the other species to each city's data
+      for (const city in cityData) {
         const total = cityData[city].reduce((acc, curr) => acc + curr.count, 0);
-        cityData[city].forEach(d => {
-          d.percent = (d.count / total) * 100;
+        cityData[city].push({
+          city: city,
+          scientific_name: "Other",
+          count: total,
         });
       }
 
@@ -592,8 +609,8 @@
 
 
       // Set chart dimensions and margins
-      const margin = { top: 120, right: 100, bottom: 150, left: 200 };
-      const width = 1200 - margin.left - margin.right;
+      const margin = { top: 120, right: 100, bottom: 150, left: 100 };
+      const width = 1300 - margin.left - margin.right;
       const height = 800 - margin.top - margin.bottom;
 
       // Extract unique city and species names
@@ -676,7 +693,7 @@
         .value((d, key) => {
           const count = d.counts.find(p => p.name === key);
           return count ? count.value : 0;
-        })(citySpeciesData);
+        }).order(d3.stackOrderAscending)(citySpeciesData);
 
       const x = d3.scaleLinear()
         .domain([0, d3.max(series, d => d3.max(d, d => d[1]))])
@@ -693,7 +710,7 @@
         .append("g")
         .attr("class", "bar")
         .attr("transform", `translate(${margin.left}, ${margin.top})`)
-        .attr("fill", d => color(d.key));
+        .attr("fill", d => d.key != "Other" ? color(d.key) : "lightgrey");
 
       bars.selectAll("rect")
         .data(d => d)
@@ -719,7 +736,11 @@
 
       const speciesColors = {};
       data.forEach((d) => {
-        speciesColors[d.scientific_name] = color(d.scientific_name);
+        if (d.scientific_name == "Other") {
+          speciesColors[d.scientific_name] = "lightgrey";
+        } else {
+          speciesColors[d.scientific_name] = color(d.scientific_name);
+        }
       });
 
       // Create an SVG group for the legend
@@ -848,8 +869,8 @@
       data = Object.values(cityData).flatMap(city => city);
 
       // Set chart dimensions and margins
-      const margin = { top: 200, right: 100, bottom: 100, left: 200 };
-      const width = 1200 - margin.left - margin.right;
+      const margin = { top: 200, right: 100, bottom: 100, left: 100 };
+      const width = 1300 - margin.left - margin.right;
       const height = 900 - margin.top - margin.bottom;
 
       // Find the top three species by count from all the cities
@@ -976,7 +997,7 @@
         // Add legend
         const legend = svg.append("g")
           .attr("class", "legend")
-          .attr("transform", `translate(${width/2}, ${margin.top - 50})`)
+          .attr("transform", `translate(${(width - margin.left - margin.right)/2}, ${margin.top - 50})`)
 
         // Create legend items
         const legendItems = legend.selectAll(".legend-item")
@@ -1416,7 +1437,7 @@
       .dropdown {
         width: 20vw;
         margin-left: 0;
-        margin-bottom: 0rem;
+        margin-bottom: 2rem;
       }
 
       .chart_nav ul {
