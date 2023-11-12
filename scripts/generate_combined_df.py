@@ -16,9 +16,13 @@ for dirname, _, filenames in os.walk('../data/'):
 df = concat(df_list, axis=0).drop_duplicates()
 
 # ## For first assignment ##
-selected_columns = ['scientific_name', 'common_name', 'city', 'state', 'height_M']
-df = df[selected_columns]
+# selected_columns = ['scientific_name', 'common_name', 'city', 'state', 'height_M']
+# df = df[selected_columns]
 
+
+## For second assignment ##
+selected_columns = ['scientific_name', 'common_name', 'city', 'state', 'height_M', 'diameter_breast_height_CM']
+df = df[selected_columns]
 
 df.to_csv('../data/full_dataset.csv', index=False)
 
