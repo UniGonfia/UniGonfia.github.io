@@ -76,14 +76,17 @@
         return data;
     }
         
-    function alluvion_chart(n_state, n_city, n_species) {
+    async function alluvion_chart(n_state, n_city, n_species) {
+
+        //clean the chart
+        d3.select('#alluvion-chart').selectAll('*').remove();
 
         let data = alluvion_filter(data_file, n_state, n_city, n_species);
         
         // sankey graph
-        const margin = { top: 30, right: 150, bottom: 10, left: 100 };
-        const width = 1200 - margin.left - margin.right;
-        const height = 700 - margin.top - margin.bottom;
+        const margin = { top: 30, right: 150, bottom: 10, left: 50 };
+        const width = 1400 - margin.left - margin.right;
+        const height = 800 - margin.top - margin.bottom;
 
         const svg = d3.select('#alluvion-chart')
             .attr('width', width + margin.left + margin.right)
@@ -100,17 +103,37 @@
 
         const cities = [...new Set(data.map(d => d.city))];
         const states = [...new Set(data.map(d => d.state))];
-        const species = [...new Set(data.map(d => d.scientific_name))];
+
+        // https://api.gbif.org/v1/species?name=platanus%20acerifolia for family species
+        const data_fetch = async (name) => {
+            const request = "https://api.gbif.org/v1/species?name="+name;
+            const response = await fetch(request);
+            const json = await response.json();
+
+            if (json.results.length === 0) return "N/A";
+
+            if (json.results[0].family === undefined) return "N/A";
+
+            return json.results[0].family;
+
+        }
+
+        await Promise.all(data.map(async (d) => {
+            d.family = await data_fetch(d.scientific_name);
+        }));
+
+        const family = [...new Set(data.map(d => d.family))];
+
 
         const { nodes, links } = sankey({
             nodes: [
                 ...states.map(d => ({ name: d, count: data.filter(e => e.state === d).length })),
                 ...cities.map(d => ({ name: d, count: data.filter(e => e.city === d).length })),
-                ...species.map(d => ({ name: d, count: data.filter(e => e.scientific_name === d).length}))
+                ...family.map(d => ({ name: d, count: data.filter(e => e.family === d).length })),
             ],
             links: [
                 ...data.map(d => ({ source: d.state, target: d.city, value: d.count })),
-                ...data.map(d => ({ source: d.city, target: d.scientific_name, value: d.count }))
+                ...data.map(d => ({ source: d.city, target: d.family, value: d.count }))
             ]
         });
 
@@ -129,14 +152,14 @@
             .selectAll('rect')
                 .data(nodes)
                 .join('rect')
-                .attr('x', d => d.x0)
+                .attr('x', d => d.x0 + margin.left)
                 .attr('y', d => d.y0)
                 .attr("height", d => d.y1 - d.y0)
                 .attr("width", d => d.x1 - d.x0)
                 .attr("fill", d => color(d.name));
         
         rect.append("title")
-            .text(d => `${d.name}`);
+            .text(d => `${d.name}`)
 
         const link = svg.append('g')
             .attr("fill", "none")
@@ -144,16 +167,24 @@
                 .selectAll()
                 .data(links)
                 .join("g")
-                .style("mix-blend-mode", "multiply");
+                .style("mix-blend-mode", "multiply")
+                .attr("transform", `translate(${margin.left}, 0)`)
 
         link.append("path")
             .attr("d", d3_sankey.sankeyLinkHorizontal())
-            .attr("stroke", d => color(d.source.state))
-            .attr("stroke-width", d => d.width)
-            .style("stroke-opacity", 0.4)
-            .style("stroke", d => color(d.source.name))
+            .attr("stroke", d => color(d.source.name))
+            .attr("stroke-opacity", 0.4)
+            .attr("stroke-width", d => Math.max(1, d.width))
+            .on("mouseover", function (event, d) {
+                d3.select(this)
+                    .attr("stroke-opacity", 0.9)
+            })
+            .on("mouseout", function (event, d) {
+                d3.select(this)
+                    .attr("stroke-opacity", 0.4)
+            })
             .append("title")
-            .text(d => `${d.source.name} →  ${d.target.name}\n${d.target.value}`)
+            .text(d => `${d.source.name} → ${d.target.name}\n${d.value.toLocaleString()}`);
 
         
         svg.append("g")
@@ -166,15 +197,34 @@
                 .attr("text-anchor", d => d.x0 < width / 2 ? "end" : "start")
                 .attr("fill", "wheat")
                 .text(d => d.name)
+                .attr("transform", `translate(${margin.left}, 0)`)
         
         //add title
         svg.append("text")
-            .attr("x", width / 2 + margin.left - 50)
+            .attr("x", width / 2 + margin.left + 50)
             .attr("y", margin.top)
             .attr("text-anchor", "middle")
             .attr("fill", "wheat")
             .style("font-size", "1.25em")
             .text(`Alluvion Chart of Top ${n_state} States, Top ${n_city} Cities, Top ${n_species} Species`);
+
+
+
+        rect.on("mouseover", function (event, d) {
+
+            let links = svg.selectAll("path")
+                .filter(e => e.source.name === d.name || e.target.name === d.name)
+                .attr("stroke-opacity", 0.9)
+            
+        })
+
+        rect.on("mouseout", function (event, d) {
+
+            let links = svg.selectAll("path")
+                .filter(e => e.source.name === d.name || e.target.name === d.name)
+                .attr("stroke-opacity", 0.4)
+        })
+
     }
 
     function boxplot_filter(data) {
@@ -704,8 +754,7 @@
         //clear chart
         d3.select('#alluvion-chart').selectAll('*').remove();
         alluvion_chart(n_state, n_city, n_species);
-
-
+        
         d3.select('#box-plot').selectAll('*').remove();
         boxplot_chart();
 
@@ -741,18 +790,23 @@
                 has been inserted which should ensure a clear view of the chart most of the time. 
                 <br/> <br/>
                 By hovering the mouse over the links in the graph, you can see the number of trees belonging to each path.
+                In addition the links will be highlighted when hovering over the mouse.
+                <br/> <br/>
+                By hovering the mouse over the boxes you can see the name of the category and also the links that pass through it will
+                be highlighted.
                 <br/> <br/>
                 The colours have been chosen to highlight the path from source to target so that it can be easily followed.
+                The species have been grouped by family, so that the chart is not too cluttered.
             </p>
 
             <label for="n_state">Number of states: {n_state} </label>
-            <input type="range" bind:value={n_state} min="1" max="5" step="1" />
+            <input type="range" bind:value={n_state} min="1" max="10" step="1" />
             <br />
             <label for="n_city">Number of cities {n_city} </label>
-            <input type="range" bind:value={n_city} min="1" max="5" step="1" />
+            <input type="range" bind:value={n_city} min="1" max="10" step="1" />
             <br />
             <label for="n_species">Number of species {n_species} </label>
-            <input type="range" bind:value={n_species} min="1" max="4" step="1" />
+            <input type="range" bind:value={n_species} min="1" max="10" step="1" />
         </div>
 
     </section>
@@ -825,6 +879,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        overflow: hidden;
     }
 
     .backhome {
@@ -956,8 +1012,11 @@
 
         #box-plot {
             margin: 0;
-            margin-inline: 5%;
-            width: 90%;
+            width: 75%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
     }
 
@@ -1012,7 +1071,7 @@
         #bubble-chart {
             margin: 0;
             margin-inline: 5%;
-            width: 90%;
+            width: 75%;
         }
     }
 
@@ -1075,7 +1134,7 @@
         #scatter-chart {
             margin: 0;
             margin-inline: 5%;
-            width: 90%;
+            width: 75%;
         }
     }
 
