@@ -786,7 +786,7 @@
             <p> 
                 Here we can see an alluvion chart that represents has as nodes: states, cities and species, 
                 which can be controlled from the buttons below, it is advisable not to increase the categories 
-                too much together otherwise the chart will not be able to support them, however a maximum of 5 
+                too much together otherwise the chart will not be able to support them, however a maximum of 10
                 has been inserted which should ensure a clear view of the chart most of the time. 
                 <br/> <br/>
                 By hovering the mouse over the links in the graph, you can see the number of trees belonging to each path.
