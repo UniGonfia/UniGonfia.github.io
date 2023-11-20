@@ -26,6 +26,7 @@
         <ul>
             <li> <a href="{base}/Assignment1"> Assignment 1 - Comparing Categories </a> </li>
             <li> <a href="{base}/Assignment2"> Assignment 2 - Alluvial </a> </li>
+            <li> <a href="{base}/Assignment3"> Assignment 3 - Timelines and distributions </a> </li>
         </ul>
     </nav>
 

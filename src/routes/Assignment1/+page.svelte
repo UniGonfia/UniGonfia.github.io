@@ -1283,7 +1283,7 @@
     </nav>
     
     <svg id="chart"></svg>
-
+    
     <div class="stuff">
       <select id="dropdown" class="dropdown" on:change={select_change}> </select>
 

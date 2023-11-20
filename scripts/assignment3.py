@@ -36,6 +36,9 @@ df = df.astype({'jan': 'float64', 'feb': 'float64', 'mar': 'float64', 'apr': 'fl
                 'jul': 'float64', 'aug': 'float64', 'sep': 'float64', 'oct': 'float64', 'nov': 'float64', 'dec': 'float64', 
                 'year': 'int64', 'city': 'string', 'measurement': 'string'})
 
+# take only year 2020-2010-2000-1990-1980-1970-1960-1950-1940-1930
+year_filter = [2020, 2010, 2000, 1990, 1980, 1970, 1960, 1950, 1940, 1930]
+df = df[df['year'].isin(year_filter)]
 
 # If the value of months is <= -99.90 then replace with the value of the previous year
 for i in range(1, len(df)):
