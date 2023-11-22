@@ -36,7 +36,7 @@
     $: options = {
         chart: "line",
         state: "Alabama",
-        year: 2020
+        year: [2020]
     }
 
     let rendered = false;
@@ -77,20 +77,27 @@
         options.year = years_array;
         n_year = slider.value;
 
-        if (chart == "line" || chart == "polar" || chart == "bridge") {
+        if (chart == "line" || chart == "polar" || chart == "ridge") {
             options.chart = chart;
         }
+
     }
 
     function setup_chart(options) {
         d3.select("#chart").selectAll("*").remove();
 
         if (options.chart == "line") {
+            document.getElementById("yearlabel").style.display = "block";
+            document.getElementById("year").style.display = "block";
             line_chart(data_file, options.state, options.year);
         } else if (options.chart == "polar") {
+            document.getElementById("yearlabel").style.display = "block";
+            document.getElementById("year").style.display = "block";
             polar_chart(data_file, options.state, options.year);
-        } else if (options.chart == "bridge") {
-            bridge_chart(data_file, options.state);
+        } else if (options.chart == "ridge") {
+            document.getElementById("yearlabel").style.display = "none";
+            document.getElementById("year").style.display = "none";
+            ridge_chart(data_file, options.state);
         }
     }
 
@@ -183,38 +190,336 @@
                         .duration(1000)
                         .attr("opacity", 1);
 
-            //legend
-            svg.append("circle")
-                .attr("cx", width + margin.left - 50)
-                .attr("cy", 60 + years_array.indexOf(year) * 30)
-                .attr("r", 6)
-                .style("fill", color(year));
-            
-            svg.append("text")
-                .attr("x", width + margin.left - 40)
-                .attr("y", 65 + years_array.indexOf(year) * 30)
-                .text(year)
-                .style("font-size", "15px")
+                if (years_array.length > 1) {
+                    //legend
+                    svg.append("circle")
+                                    .attr("cx", width + margin.left - 50)
+                                    .attr("cy", 60 + years_array.indexOf(year) * 30)
+                                    .attr("r", 6)
+                                    .style("fill", color(year));
+                    
+                    svg.append("text")
+                        .attr("x", width + margin.left - 40)
+                        .attr("y", 65 + years_array.indexOf(year) * 30)
+                        .text(year)
+                        .style("font-size", "15px")
+                        .attr("alignment-baseline","middle")
+                        .style("fill", "wheat");
+                }
+        }
+
+
+        //title
+        svg.append("text")
+            .attr("x", width / 2 + margin.left)
+            .attr("y", 20)
+            .text(`Temperature in ${state} from ${years_array[0]} to ${years_array[years_array.length - 1]}`)
+            .style("font-size", "28px")
+            .attr("text-anchor", "middle")
+            .style("fill", "wheat");
+    }
+
+    function polar_chart(data, state, years_array) {
+
+        let margin = {top: 200, right: 100, bottom: 200, left: 100};
+        let width = 375 - margin.left - margin.right;
+        let height = 200 - margin.top - margin.bottom;
+
+        const svg = d3.select("#chart")
+            .attr('width', width)
+            .attr('height', height)
+            .attr("viewBox", [0, 0, width + margin.left + margin.right, height + margin.top + margin.bottom])
+            .attr("style", "max-width: 100%;");
+
+
+        //draw the polar chart
+        let polar = svg.append("g")
+            .attr("transform", `translate(${width / 2 + margin.left}, ${height / 2 + margin.top})`);
+
+        //draw the circles and axis and labels of month and temperature
+        let r = d3.scaleLinear()
+            .domain([d3.min(months, (d) => d3.min(years_array, (y) => data[state][y][d].min - 10)), d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))])
+            .range([0, width / 2]);
+        
+        let t = d3.scaleLinear()
+            .domain([0, 12])
+            .range([0, 2 * Math.PI]);
+
+
+        //draw the circles
+        polar.selectAll("circle")
+            .data(r.ticks(5).slice(1))
+            .enter()
+            .append("circle")
+                .attr("fill", "none")
+                .attr("stroke", "wheat")
+                .attr("stroke-width", 0.5)
+                .attr("r", (d) => r(d));
+
+        //draw the axis
+        polar.append("g")
+            .selectAll("circle")
+            .data(months)
+            .enter()
+            .append("line")
+                .attr("x1", 0)
+                .attr("y1", 0)
+                .attr("x2", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))) * Math.cos(t(i) - Math.PI / 2))
+                .attr("y2", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))) * Math.sin(t(i) - Math.PI / 2))
+                .attr("stroke", "wheat")
+                .attr("stroke-width", 0.5);
+
+        //draw the labels of the months
+        polar.append("g")
+            .selectAll("circle")
+            .data(months)
+            .enter()
+            .append("text")
+                .attr("x", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))) * Math.cos(t(i) - Math.PI / 2))
+                .attr("y", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))) * Math.sin(t(i) - Math.PI / 2))
+                .text((d) => d.toUpperCase())
+                .style("font-size", "8px")
                 .attr("alignment-baseline","middle")
+                .attr("text-anchor", "middle")
+                .attr("transform", (d, i) => "translate(" + 10 * Math.cos(t(i) - Math.PI / 2) + ", " + 10 * Math.sin(t(i) - Math.PI / 2) + ")")
                 .style("fill", "wheat");
 
-            //title
-            svg.append("text")
-                .attr("x", width / 2 + margin.left)
-                .attr("y", 20)
-                .text(`Temperature in ${state} from ${years_array[0]} to ${years_array[years_array.length - 1]}`)
-                .style("font-size", "28px")
+        
+        //draw the labels of the temperature
+        polar.append("g")
+            .selectAll("circle")
+            .data(r.ticks(5).slice(1))
+            .enter()
+            .append("text")
+                .attr("x", 0)
+                .attr("y", (d) => -r(d))
+                .text((d) => d + "°F")
+                .style("font-size", "5px")
+                .attr("alignment-baseline","middle")
                 .attr("text-anchor", "middle")
                 .style("fill", "wheat");
+        
+        //draw the circles with the temperature, if the year == 1 draw max and min and avg, else draw only avg for each year
+        for (let year of years_array) {
+            let data_state = data[state];
+            let data_year = data_state[year];
+
+
+            let line = d3.lineRadial()
+                .angle((d, i) => t(i))
+                .radius((d) => r(d));
+
+
+            if (years_array.length > 1) {
+                //draw the line
+                polar.append("path")
+                    .datum(months.map((d) => data_year[d].avg).concat(data_year[months[0]].avg))
+                    .attr("fill", "none")
+                    .attr("stroke", color(year))
+                    .attr("stroke-width", 0.75)
+                    .attr("d", line)
+                    .attr("stroke-dasharray", function() { return this.getTotalLength() })
+                    .attr("stroke-dashoffset", function() { return this.getTotalLength() })
+                    .transition()
+                        .duration(1000)
+                        .attr("stroke-dashoffset", 0);
+
+            } else {
+                //draw the line animate
+                polar.append("path")
+                    .datum(months.map((d) => data_year[d].max).concat(data_year[months[0]].max))
+                    .attr("fill", "none")
+                    .attr("stroke", "red")
+                    .attr("stroke-width", 0.75)
+                    .attr("d", line)
+                    .attr("stroke-dasharray", function() { return this.getTotalLength() })
+                    .attr("stroke-dashoffset", function() { return this.getTotalLength() })
+                    .transition()
+                        .duration(1000)
+                        .attr("stroke-dashoffset", 0);
+
+                polar.append("path")
+                    .datum(months.map((d) => data_year[d].min).concat(data_year[months[0]].min))
+                    .attr("fill", "none")
+                    .attr("stroke", "blue")
+                    .attr("stroke-width", 0.75)
+                    .attr("d", line)
+                    .attr("stroke-dasharray", function() { return this.getTotalLength() })
+                    .attr("stroke-dashoffset", function() { return this.getTotalLength() })
+                    .transition()
+                        .duration(1000)
+                        .attr("stroke-dashoffset", 0);
+
+                polar.append("path")
+                    .datum(months.map((d) => data_year[d].avg).concat(data_year[months[0]].avg))
+                    .attr("fill", "none")
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 0.75)
+                    .attr("d", line)
+                    .attr("stroke-dasharray", function() { return this.getTotalLength() })
+                    .attr("stroke-dashoffset", function() { return this.getTotalLength() })
+                    .transition()
+                        .duration(1000)
+                        .attr("stroke-dashoffset", 0);
+            }
+
         }
+
+        //legend
+        if (years_array.length > 1) {
+            for (let year of years_array) {
+                polar.append("circle")
+                    .attr("cx", width - 40)
+                    .attr("cy", years_array.indexOf(year) * 10)
+                    .attr("r", 3)
+                    .style("fill", color(year));
+                
+                polar.append("text")
+                    .attr("x", width - 35)
+                    .attr("y", 2 + years_array.indexOf(year) * 10)
+                    .text(year)
+                    .style("font-size", "5px")
+                    .attr("alignment-baseline","middle")
+                    .style("fill", "wheat");
+
+                
+            }
+        }
+
+
     }
 
-    function polar_chart(data, state, year) {
-        console.log("polar chart");
+    function ridge_chart(data, state) {
+        
+        let margin = {top: 150, right: 50, bottom: 100, left: 50};
+        let width = 1800 - margin.left - margin.right;
+        let height = 1200 - margin.top - margin.bottom;
+
+        const svg = d3.select("#chart")
+            .attr('width', width)
+            .attr('height', height)
+            .attr("viewBox", [0, 0, width + margin.left + margin.right, height + margin.top + margin.bottom])
+            .attr("style", "max-width: 100%;");
+
+        //max temperatures for each year
+        let max_temps = [];
+        let min_temps = [];
+        for (let year of years) {
+            let data_state = data[state];
+            let data_year = data_state[year];
+            
+            let year_max = []
+            let year_min = []
+            for (let month of months) {
+                year_max.push(data_year[month].max);
+                year_min.push(data_year[month].min);
+            }
+
+            max_temps.push({
+                year: year,
+                max: year_max,
+            });
+
+            min_temps.push({
+                year: year,
+                min: year_min,
+            });
+        }
+        
+        const x = d3.scaleLinear()
+            .domain([d3.min(min_temps, (d) => d3.min(d.min)), d3.max(max_temps, (d) => d3.max(d.max))])
+            .range([margin.left, width]);
+
+        const y = d3.scaleLinear()
+            .domain([0, 0.4])
+            .range([height, 0]);
+        
+        const yName = d3.scaleBand()
+            .domain(years)
+            .range([margin.top, height])
+            .padding(0.1);
+
+        
+        svg.append("g")
+            .style("color", "wheat")
+            .attr("transform", `translate(${margin.left}, 0)`)
+            .call(d3.axisLeft(yName));
+
+        svg.append("g")
+            .style("color", "wheat")
+            .attr("transform", `translate(0, ${height})`)
+            .call(d3.axisBottom(x));
+
+        //increase font size
+        svg.selectAll("text")
+            .style("font-size", "25px");
+
+        const kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40));
+        const maxDensity = [];
+        for (let i = 0; i < years.length; i++) {
+            let data_year = max_temps[i].max;
+            let density = kde(data_year);
+            maxDensity.push({
+                year: years[i],
+                density: density
+            });
+        }
+
+        const minDensity = [];
+        for (let i = 0; i < years.length; i++) {
+            let data_year = min_temps[i].min;
+            let density = kde(data_year);
+            minDensity.push({
+                year: years[i],
+                density: density
+            });
+        }
+
+        svg.selectAll("areas")
+            .data(maxDensity)
+            .enter()
+            .append("path")
+                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top/2})`)    
+                .datum((d) => d.density)
+                .attr("fill", "red")
+                .attr("opacity", 0.6)
+                .attr("stroke", "white")
+                .attr("stroke-width", 1)
+                .attr("d", d3.line()
+                    .curve(d3.curveBasis)
+                    .x((d) => x(d[0]))
+                    .y((d) => y(d[1]))
+                );
+
+        svg.selectAll("areas")
+            .data(minDensity)
+            .enter()
+            .append("path")
+                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top/2})`)    
+                .datum((d) => d.density)
+                .attr("fill", "blue")
+                .attr("opacity", 0.6)
+                .attr("stroke", "white")
+                .attr("stroke-width", 1)
+                .attr("d", d3.line()
+                    .curve(d3.curveBasis)
+                    .x((d) => x(d[0]))
+                    .y((d) => y(d[1]))
+                );
     }
 
-    function bridge_chart(data, state) {
-        console.log("bridge chart");
+    // This is what I need to compute kernel density estimation
+    function kernelDensityEstimator(kernel, X) {
+    return function(V) {
+        return X.map(function(x) {
+        return [x, d3.mean(V, function(v) { return kernel(x - v); })];
+        });
+    };
+    }
+    function kernelEpanechnikov(k) {
+    return function(v) {
+        return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+    };
     }
 
 </script>
@@ -229,9 +534,9 @@
 
     <nav class="chart-buttons">
         <ul>
-            <li> <button on:click={options_change("line")}> <iconify-icon class="icon" icon="ph:chart-line" width="100%" /> </button> </li>
-            <li> <button on:click={polar_chart("polar")}> <iconify-icon class="icon" icon="ph:chart-polar-light" width="100%"/> </button> </li>
-            <li> <button on:click={bridge_chart("bridge")}> <iconify-icon class="icon" icon="material-symbols:area-chart-rounded" width="100%"/> </button> </li>
+            <li> <button on:click|preventDefault={() => options_change("line")}> <iconify-icon class="icon" icon="ph:chart-line" width="100%" /> </button> </li>
+            <li> <button on:click|preventDefault={() => options_change("polar")}> <iconify-icon class="icon" icon="ph:chart-polar-light" width="100%"/> </button> </li>
+            <li> <button on:click|preventDefault={() => options_change("ridge")}> <iconify-icon class="icon" icon="material-symbols:area-chart-rounded" width="100%"/> </button> </li>
         </ul>
     </nav>
 
@@ -242,7 +547,7 @@
         <label for="states"> State: </label>
         <select on:change={options_change} id="states"></select>
 
-        <label for="year"> Number of years: {n_year} </label>
+        <label for="year" id="yearlabel"> Number of years: {n_year} </label>
         <input on:change={options_change} type="range" id="year" min="1" max="10" step="1" value="1">
         
         <p class="description">
