@@ -105,7 +105,7 @@
         setup_chart(options);
     }
 
-    function line_chart(data, state, years_array) {
+    function line_chart(data, state, years_array) {1
 
         let margin = {top: 150, right: 100, bottom: 30, left: 100};
         let width = 1500 - margin.left - margin.right;
@@ -206,8 +206,134 @@
                         .attr("alignment-baseline","middle")
                         .style("fill", "wheat");
                 }
+
+            
         }
 
+
+        //mouse over
+        for (let year of years_array) {
+            let data_state = data[state];
+            let data_year = data_state[year];
+
+            svg.append("g")
+                .selectAll("dot")
+                .data(months)
+                .enter()
+                .append("circle")
+                    .attr("cx", (d) => x(d) + margin.left + x.bandwidth() / 2)
+                    .attr("cy", (d) => y(data_year[d].avg) + margin.top)
+                    .attr("r", 5)
+                    .attr("fill", "transparent")
+                    .on("mouseover", function(event, d) {
+                        d3.select(this)
+                            .attr("fill", "white")
+                            .attr("r", 10);
+
+                        //temperatures with endline for each variable
+                        svg.append("line")
+                            .attr("x1", x(d) + margin.left + x.bandwidth() / 2)
+                            .attr("y1", y(data_year[d].max) + margin.top)
+                            .attr("x2", x(d) + margin.left + x.bandwidth() / 2)
+                            .attr("y2", y(data_year[d].min) + margin.top)
+                            .attr("stroke", "wheat")
+                            .attr("stroke-width", 1)
+                            .attr("stroke-dasharray", function() { return this.getTotalLength() })
+                            .attr("stroke-dashoffset", function() { return this.getTotalLength() })
+                            .transition()
+                                .duration(500)
+                                .attr("stroke-dashoffset", 0);
+
+                        svg.append("line")
+                            .attr("x1", x(d) + margin.left + x.bandwidth() / 2 - 10)
+                            .attr("y1", y(data_year[d].max) + margin.top)
+                            .attr("x2", x(d) + margin.left + x.bandwidth() / 2 + 10)
+                            .attr("y2", y(data_year[d].max) + margin.top)
+                            .attr("stroke", "wheat")
+                            .attr("stroke-width", 1)
+                            .attr("stroke-dasharray", function() { return this.getTotalLength() })
+                            .attr("stroke-dashoffset", function() { return this.getTotalLength() })
+                            .transition()
+                                .duration(500)
+                                .attr("stroke-dashoffset", 0);
+
+                        svg.append("line")
+                            .attr("x1", x(d) + margin.left + x.bandwidth() / 2 - 10)
+                            .attr("y1", y(data_year[d].min) + margin.top)
+                            .attr("x2", x(d) + margin.left + x.bandwidth() / 2 + 10)
+                            .attr("y2", y(data_year[d].min) + margin.top)
+                            .attr("stroke", "wheat")
+                            .attr("stroke-width", 1)
+                            .attr("stroke-dasharray", function() { return this.getTotalLength() })
+                            .attr("stroke-dashoffset", function() { return this.getTotalLength() })
+                            .transition()
+                                .duration(500)
+                                .attr("stroke-dashoffset", 0);
+
+
+                        svg.append("line")
+                            .attr("x1", x(d) + margin.left + x.bandwidth() / 2 - 10)
+                            .attr("y1", y(data_year[d].avg) + margin.top)
+                            .attr("x2", x(d) + margin.left + x.bandwidth() / 2 + 10)
+                            .attr("y2", y(data_year[d].avg) + margin.top)
+                            .attr("stroke", "wheat")
+                            .attr("stroke-width", 1)
+                            .attr("stroke-dasharray", function() { return this.getTotalLength() })
+                            .attr("stroke-dashoffset", function() { return this.getTotalLength() })
+                            .transition()
+                                .duration(500)
+                                .attr("stroke-dashoffset", 0);
+
+                        
+                        //text with temperatures
+                        svg.append("text")
+                            .attr("class", "textover")
+                            .attr("x", x(d) + margin.left + x.bandwidth() / 2 + 15)
+                            .attr("y", y(data_year[d].max) + margin.top + 5)
+                            .text(parseFloat(data_year[d].max).toFixed(2) + "°F")
+                            .style("font-size", "15px")
+                            .attr("alignment-baseline","middle")
+                            .style("fill", "wheat");
+
+                        svg.append("text")
+                            .attr("class", "textover")
+                            .attr("x", x(d) + margin.left + x.bandwidth() / 2 + 15)
+                            .attr("y", y(data_year[d].min) + margin.top + 5)
+                            .text(parseFloat(data_year[d].min).toFixed(2) + "°F")
+                            .style("font-size", "15px")
+                            .attr("alignment-baseline","middle")
+                            .style("fill", "wheat");
+
+                        svg.append("text")
+                            .attr("class", "textover")
+                            .attr("x", x(d) + margin.left + x.bandwidth() / 2 + 15)
+                            .attr("y", y(data_year[d].avg) + margin.top + 5)
+                            .text(parseFloat(data_year[d].avg).toFixed(2) + "°F")
+                            .style("font-size", "15px")
+                            .attr("alignment-baseline","middle")
+                            .style("fill", "wheat");
+
+                        //Add the year
+                        svg.append("text")
+                            .attr("class", "textover")
+                            .attr("x", x(d) + margin.left + x.bandwidth() / 2 + 15)
+                            .attr("y", y(data_year[d].avg) + margin.top - 20)
+                            .text(year)
+                            .style("font-size", "15px")
+                            .attr("alignment-baseline","middle")
+                            .style("fill", "wheat");
+
+                    })
+                    .on("mouseout", function(event, d) {
+                        d3.select(this)
+                            .attr("fill", "transparent")
+                            .attr("r", 5);
+
+                        svg.selectAll("line").remove();
+
+                        svg.selectAll(".textover").remove();
+                    });
+        }
 
         //title
         svg.append("text")
@@ -217,6 +343,9 @@
             .style("font-size", "28px")
             .attr("text-anchor", "middle")
             .style("fill", "wheat");
+
+
+
     }
 
     function polar_chart(data, state, years_array) {
@@ -264,8 +393,8 @@
             .append("line")
                 .attr("x1", 0)
                 .attr("y1", 0)
-                .attr("x2", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))) * Math.cos(t(i) - Math.PI / 2))
-                .attr("y2", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))) * Math.sin(t(i) - Math.PI / 2))
+                .attr("x2", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 10))) * Math.cos(t(i) - Math.PI / 2))
+                .attr("y2", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 10))) * Math.sin(t(i) - Math.PI / 2))
                 .attr("stroke", "wheat")
                 .attr("stroke-width", 0.5);
 
@@ -275,10 +404,10 @@
             .data(months)
             .enter()
             .append("text")
-                .attr("x", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))) * Math.cos(t(i) - Math.PI / 2))
-                .attr("y", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))) * Math.sin(t(i) - Math.PI / 2))
+                .attr("x", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 10))) * Math.cos(t(i) - Math.PI / 2))
+                .attr("y", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 10))) * Math.sin(t(i) - Math.PI / 2))
                 .text((d) => d.toUpperCase())
-                .style("font-size", "8px")
+                .style("font-size", "6px")
                 .attr("alignment-baseline","middle")
                 .attr("text-anchor", "middle")
                 .attr("transform", (d, i) => "translate(" + 10 * Math.cos(t(i) - Math.PI / 2) + ", " + 10 * Math.sin(t(i) - Math.PI / 2) + ")")
@@ -387,11 +516,20 @@
         }
 
 
+        //add title
+        polar.append("text")
+            .attr("x", -width / 2 - 20)
+            .attr("y", -height / 2 - margin.top)
+            .text(`Temperature in ${state} from ${years_array[0]} to ${years_array[years_array.length - 1]}`)
+            .style("font-size", "6px")
+            .attr("text-anchor", "middle")
+            .style("fill", "wheat");
+
     }
 
     function ridge_chart(data, state) {
         
-        let margin = {top: 150, right: 50, bottom: 100, left: 50};
+        let margin = {top: 200, right: 50, bottom: 100, left: 50};
         let width = 1800 - margin.left - margin.right;
         let height = 1200 - margin.top - margin.bottom;
 
@@ -442,12 +580,12 @@
         
         svg.append("g")
             .style("color", "wheat")
-            .attr("transform", `translate(${margin.left}, 0)`)
+            .attr("transform", `translate(${margin.left}, ${margin.top})`)
             .call(d3.axisLeft(yName));
 
         svg.append("g")
             .style("color", "wheat")
-            .attr("transform", `translate(0, ${height})`)
+            .attr("transform", `translate(0, ${height + margin.top})`)
             .call(d3.axisBottom(x));
 
         //increase font size
@@ -479,7 +617,7 @@
             .data(maxDensity)
             .enter()
             .append("path")
-                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top/2})`)    
+                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top + 30})`)    
                 .datum((d) => d.density)
                 .attr("fill", "red")
                 .attr("opacity", 0.6)
@@ -495,7 +633,7 @@
             .data(minDensity)
             .enter()
             .append("path")
-                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top/2})`)    
+                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top + 30})`)    
                 .datum((d) => d.density)
                 .attr("fill", "blue")
                 .attr("opacity", 0.6)
@@ -506,6 +644,16 @@
                     .x((d) => x(d[0]))
                     .y((d) => y(d[1]))
                 );
+
+
+        //add title
+        svg.append("text")
+            .attr("x", width / 2 + margin.left)
+            .attr("y", margin.top - 30)
+            .text(`Temperature in ${state} from ${years[0]} to ${years[years.length - 1]}`)
+            .style("font-size", "38px")
+            .attr("text-anchor", "middle")
+            .style("fill", "wheat");
     }
 
     // This is what I need to compute kernel density estimation
