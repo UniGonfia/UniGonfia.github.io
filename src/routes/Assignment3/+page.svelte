@@ -39,6 +39,27 @@
         year: [2020]
     }
 
+    let line_description = `
+        This chart shows the temperature in a state for a number of years.
+        Is possible to change the state and the number of years by using the tools on the right, the maximum number of years is 10. <br>
+        If is chosen only one year, the chart will show the maximum, minimum and average temperature for each month and the legend will show the color for each variable. <br>
+        If are chosen more than one year, the chart will show the average temperature for each month and the legend will show the color for each year. <br>
+        There is an interaction with the mouse, if the mouse is over a point, the chart will show the temperature for each variable and the year. <br>
+    `
+
+    let polar_description = `
+        This chart shows the temperature in a state for a number of years like the previous chart, but in a polar way. <br>
+        Is possible to change the state and the number of years by using the tools on the right, the maximum number of years is 10. <br>
+        If is chosen only one year, the chart will show the maximum, minimum and average temperature for each month and the legend will show the color for each variable. <br>
+        If are chosen more than one year, the chart will show the average temperature for each month and the legend will show the color for each year. <br>
+    `
+
+    let ridge_description = `
+        This chart shows the density of the temperature in a state for 10 years. <br>
+        Is possible to change the state by using the tools on the right. <br>
+        The chart shows the density of the maximum and minimum temperature for each year and the legend will show the color for each variable. <br>
+    `
+
     let rendered = false;
     onMount(() => {
 
@@ -57,10 +78,12 @@
 
         //firsth graph
         options = {
-            chart: "ridge",
+            chart: "line",
             state: "Alabama",
             year: [2020]
         }
+
+        document.getElementById("description").innerHTML = line_description;
 
         setup_chart(options);
     })
@@ -79,6 +102,18 @@
 
         if (chart == "line" || chart == "polar" || chart == "ridge") {
             options.chart = chart;
+        }
+
+        if (chart == "line") {
+            document.getElementById("description").innerHTML = line_description;
+        }
+
+        if (chart == "polar") {
+            document.getElementById("description").innerHTML = polar_description;
+        }
+
+        if (chart == "ridge") {
+            document.getElementById("description").innerHTML = ridge_description;
         }
 
     }
@@ -123,9 +158,15 @@
             .padding(0.1)
             .domain(months);
 
+        const all_year = []
+        const data_state = data[state];
+        Object.keys(data_state).forEach(year => {
+            all_year.push(year);
+        });
+
         const y = d3.scaleLinear()
             .rangeRound([height, 0])
-            .domain([d3.min(months, (d) => d3.min(years_array, (y) => data[state][y][d].min - 5)), d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max))]);
+            .domain([d3.min(all_year, (d) => d3.min(months, (m) => data_state[d][m].min)), d3.max(all_year, (d) => d3.max(months, (m) => data_state[d][m].max))]);
 
         svg.append("g")
             .style("color", "wheat")
@@ -202,6 +243,49 @@
                         .attr("x", width + margin.left - 40)
                         .attr("y", 65 + years_array.indexOf(year) * 30)
                         .text(year)
+                        .style("font-size", "15px")
+                        .attr("alignment-baseline","middle")
+                        .style("fill", "wheat");
+                } else {
+                    //legend
+                    svg.append("circle")
+                                    .attr("cx", width + margin.left - 50)
+                                    .attr("cy", 60)
+                                    .attr("r", 6)
+                                    .style("fill", "red");
+                    
+                    svg.append("text")
+                        .attr("x", width + margin.left - 40)
+                        .attr("y", 65)
+                        .text("Max")
+                        .style("font-size", "15px")
+                        .attr("alignment-baseline","middle")
+                        .style("fill", "wheat");
+
+                    svg.append("circle")
+                                    .attr("cx", width + margin.left - 50)
+                                    .attr("cy", 90)
+                                    .attr("r", 6)
+                                    .style("fill", "blue");
+                    
+                    svg.append("text")
+                        .attr("x", width + margin.left - 40)
+                        .attr("y", 95)
+                        .text("Min")
+                        .style("font-size", "15px")
+                        .attr("alignment-baseline","middle")
+                        .style("fill", "wheat");
+
+                    svg.append("circle")
+                                    .attr("cx", width + margin.left - 50)
+                                    .attr("cy", 120)
+                                    .attr("r", 6)
+                                    .style("fill", "white");
+                    
+                    svg.append("text")
+                        .attr("x", width + margin.left - 40)
+                        .attr("y", 125)
+                        .text("Avg")
                         .style("font-size", "15px")
                         .attr("alignment-baseline","middle")
                         .style("fill", "wheat");
@@ -366,9 +450,14 @@
             .attr("transform", `translate(${width / 2 + margin.left}, ${height / 2 + margin.top})`);
 
         //draw the circles and axis and labels of month and temperature
+        let all_year = []
+        const data_state = data[state];
+        Object.keys(data_state).forEach(year => {
+            all_year.push(year);
+        });
         let r = d3.scaleLinear()
-            .domain([d3.min(months, (d) => d3.min(years_array, (y) => data[state][y][d].min - 10)), d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 20))])
-            .range([0, width / 2]);
+            .domain([d3.min(months, (d) => d3.min(all_year, (y) => data[state][y][d].min)), d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))])
+            .range([0, width / 2.5]);
         
         let t = d3.scaleLinear()
             .domain([0, 12])
@@ -393,8 +482,8 @@
             .append("line")
                 .attr("x1", 0)
                 .attr("y1", 0)
-                .attr("x2", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 10))) * Math.cos(t(i) - Math.PI / 2))
-                .attr("y2", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 10))) * Math.sin(t(i) - Math.PI / 2))
+                .attr("x2", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))) * Math.cos(t(i) - Math.PI / 2))
+                .attr("y2", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))) * Math.sin(t(i) - Math.PI / 2))
                 .attr("stroke", "wheat")
                 .attr("stroke-width", 0.5);
 
@@ -404,8 +493,8 @@
             .data(months)
             .enter()
             .append("text")
-                .attr("x", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 10))) * Math.cos(t(i) - Math.PI / 2))
-                .attr("y", (d, i) => r(d3.max(months, (d) => d3.max(years_array, (y) => data[state][y][d].max + 10))) * Math.sin(t(i) - Math.PI / 2))
+                .attr("x", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))) * Math.cos(t(i) - Math.PI / 2))
+                .attr("y", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))) * Math.sin(t(i) - Math.PI / 2))
                 .text((d) => d.toUpperCase())
                 .style("font-size", "6px")
                 .attr("alignment-baseline","middle")
@@ -513,6 +602,48 @@
 
                 
             }
+        } else {
+            polar.append("circle")
+                .attr("cx", width - 40)
+                .attr("cy", 0)
+                .attr("r", 3)
+                .style("fill", "red");
+            
+            polar.append("text")
+                .attr("x", width - 35)
+                .attr("y", 2)
+                .text("Max")
+                .style("font-size", "5px")
+                .attr("alignment-baseline","middle")
+                .style("fill", "wheat");
+
+            polar.append("circle")
+                .attr("cx", width - 40)
+                .attr("cy", 10)
+                .attr("r", 3)
+                .style("fill", "blue");
+            
+            polar.append("text")
+                .attr("x", width - 35)
+                .attr("y", 12)
+                .text("Min")
+                .style("font-size", "5px")
+                .attr("alignment-baseline","middle")
+                .style("fill", "wheat");
+
+            polar.append("circle")
+                .attr("cx", width - 40)
+                .attr("cy", 20)
+                .attr("r", 3)
+                .style("fill", "white");
+            
+            polar.append("text")
+                .attr("x", width - 35)
+                .attr("y", 22)
+                .text("Avg")
+                .style("font-size", "5px")
+                .attr("alignment-baseline","middle")
+                .style("fill", "wheat");
         }
 
 
@@ -525,6 +656,7 @@
             .attr("text-anchor", "middle")
             .style("fill", "wheat");
 
+            
     }
 
     function ridge_chart(data, state) {
@@ -632,7 +764,7 @@
             .data(maxDensity)
             .enter()
             .append("path")
-                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top + 30})`)    
+                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top + 38})`)    
                 .datum((d) => d.density)
                 .attr("fill", "red")
                 .attr("opacity", 0.6)
@@ -649,7 +781,7 @@
             .data(minDensity)
             .enter()
             .append("path")
-                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top + 30})`)    
+                .attr("transform", (d) => `translate(0, ${yName(d.year) - height + margin.top + 38})`)    
                 .datum((d) => d.density)
                 .attr("fill", "blue")
                 .attr("opacity", 0.6)
@@ -660,8 +792,6 @@
                 )
                 .attr("d", area_min);
         
-        
-
 
         //add title
         svg.append("text")
@@ -671,6 +801,39 @@
             .style("font-size", "38px")
             .attr("text-anchor", "middle")
             .style("fill", "wheat");
+
+        
+        //add legend
+        svg.append("circle")
+            .attr("cx", width - 50)
+            .attr("cy", margin.top - 50)
+            .attr("r", 10)
+            .style("fill", "red");
+
+        svg.append("text")
+            .attr("x", width - 30)
+            .attr("y", margin.top - 45)
+            .text("Max")
+            .style("font-size", "25px")
+            .attr("alignment-baseline","middle")
+            .style("fill", "wheat");
+
+        svg.append("circle")
+            .attr("cx", width - 50)
+            .attr("cy", margin.top - 20)
+            .attr("r", 10)
+            .style("fill", "blue");
+
+        svg.append("text")
+            .attr("x", width - 30)
+            .attr("y", margin.top - 10)
+            .text("Min")
+            .style("font-size", "25px")
+            .attr("alignment-baseline","middle")
+            .style("fill", "wheat");    
+        
+        
+   
     }
 
     // This is what I need to compute kernel density estimation
@@ -715,13 +878,8 @@
         <label for="year" id="yearlabel"> Number of years: {n_year} </label>
         <input on:change={options_change} type="range" id="year" min="1" max="10" step="1" value="1">
         
-        <p class="description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam blanditiis quas expedita, dolores modi ipsam similique ab temporibus 
-            impedit illo fuga neque itaque, nostrum eveniet ullam accusamus voluptatibus pariatur delectus? Laboriosam enim repellendus quasi 
-            quisquam at recusandae voluptas, officiis doloribus?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, veniam.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam impedit sunt quo eveniet quae aliquid blanditiis excepturi suscipit delectus voluptatum!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, deleniti?
+        <p id="description" class="description">
+
         </p>
 
     </div>
