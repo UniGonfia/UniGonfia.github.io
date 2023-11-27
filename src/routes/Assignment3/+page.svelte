@@ -57,7 +57,7 @@
 
         //firsth graph
         options = {
-            chart: "line",
+            chart: "ridge",
             state: "Alabama",
             year: [2020]
         }
@@ -531,7 +531,7 @@
         
         let margin = {top: 200, right: 50, bottom: 100, left: 50};
         let width = 1800 - margin.left - margin.right;
-        let height = 1200 - margin.top - margin.bottom;
+        let height = 1300 - margin.top - margin.bottom;
 
         const svg = d3.select("#chart")
             .attr('width', width)
@@ -581,10 +581,12 @@
         svg.append("g")
             .style("color", "wheat")
             .attr("transform", `translate(${margin.left}, ${margin.top})`)
+            .attr("transform", `translate(${margin.left}, ${margin.top})`)
             .call(d3.axisLeft(yName));
 
         svg.append("g")
             .style("color", "wheat")
+            .attr("transform", `translate(0, ${height + margin.top})`)
             .attr("transform", `translate(0, ${height + margin.top})`)
             .call(d3.axisBottom(x));
 
@@ -592,7 +594,7 @@
         svg.selectAll("text")
             .style("font-size", "25px");
 
-        const kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40));
+        const kde = kernelDensityEstimator(kernelEpanechnikov(3), x.ticks(40));
         const maxDensity = [];
         for (let i = 0; i < years.length; i++) {
             let data_year = max_temps[i].max;
@@ -613,6 +615,19 @@
             });
         }
 
+        let area_max = d3.area()
+            .curve(d3.curveBasis)
+            .x((d) => x(d[0]))
+            .y0(height)
+            .y1((d) => y(d[1]));
+
+        let area_min = d3.area()
+            .curve(d3.curveBasis)
+            .x((d) => x(d[0]))
+            .y0(height)
+            .y1((d) => y(d[1]));
+
+        //draw the max and fill the area under the curve
         svg.selectAll("areas")
             .data(maxDensity)
             .enter()
@@ -625,10 +640,11 @@
                 .attr("stroke-width", 1)
                 .attr("d", d3.line()
                     .curve(d3.curveBasis)
-                    .x((d) => x(d[0]))
-                    .y((d) => y(d[1]))
-                );
+                )
+                .attr("d", area_max);
 
+        
+        //draw the min and fill the area under the curve
         svg.selectAll("areas")
             .data(minDensity)
             .enter()
@@ -641,9 +657,10 @@
                 .attr("stroke-width", 1)
                 .attr("d", d3.line()
                     .curve(d3.curveBasis)
-                    .x((d) => x(d[0]))
-                    .y((d) => y(d[1]))
-                );
+                )
+                .attr("d", area_min);
+        
+        
 
 
         //add title
