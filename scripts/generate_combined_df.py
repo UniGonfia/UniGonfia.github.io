@@ -1,12 +1,11 @@
 from pandas import concat, read_csv
-import glob
 import os
 
-if (os.path.exists('../data/full_dataset.csv')):
-    os.remove('../data/full_dataset.csv')
+if (os.path.exists('../data/tree/full_dataset.csv')):
+    os.remove('../data/tree/full_dataset.csv')
 
 df_list = []
-for dirname, _, filenames in os.walk('../data/'):
+for dirname, _, filenames in os.walk('../data/tree'):
     for filename in filenames:
         file = os.path.join(dirname, filename)
         if file.endswith('.csv'):
@@ -21,9 +20,12 @@ df = concat(df_list, axis=0).drop_duplicates()
 
 
 ## For second assignment ##
-selected_columns = ['scientific_name', 'common_name', 'city', 'state', 'height_M', 'diameter_breast_height_CM']
-df = df[selected_columns]
+# selected_columns = ['scientific_name', 'common_name', 'city', 'state', 'height_M', 'diameter_breast_height_CM']
+# df = df[selected_columns]
 
-df.to_csv('../data/full_dataset.csv', index=False)
+# df.to_csv('../data/full_dataset.csv', index=False)
+
+## For fourth assignment ##
+selected_columns = ['scientific_name', 'common_name', 'city', 'state', 'loongitude_coordinate', 'latitude_coordinate','neighborhood']
 
 df.info()

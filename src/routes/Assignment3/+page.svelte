@@ -41,15 +41,15 @@
 
     let line_description = `
         This chart shows the temperature in a state for a number of years.
-        Is possible to change the state and the number of years by using the tools on the right, the maximum number of years is 10. <br>
+        Is possible to change the state and the number of decades to consider for the comparison with the 2020, up to 10 year <br> <br>
         If is chosen only one year, the chart will show the maximum, minimum and average temperature for each month and the legend will show the color for each variable. <br>
         If are chosen more than one year, the chart will show the average temperature for each month and the legend will show the color for each year. <br>
         There is an interaction with the mouse, if the mouse is over a point, the chart will show the temperature for each variable and the year. <br>
     `
 
     let polar_description = `
-        This chart shows the temperature in a state for a number of years like the previous chart, but in a polar way. <br>
-        Is possible to change the state and the number of years by using the tools on the right, the maximum number of years is 10. <br>
+        This chart shows the temperature in a state for a number of years like the previous chart, but in a radar chart. <br>
+        Is possible to change the state and the number of decades to consider for the comparison with the 2020, up to 10 year <br> <br>
         If is chosen only one year, the chart will show the maximum, minimum and average temperature for each month and the legend will show the color for each variable. <br>
         If are chosen more than one year, the chart will show the average temperature for each month and the legend will show the color for each year. <br>
     `
@@ -58,6 +58,7 @@
         This chart shows the density of the temperature in a state for 10 years. <br>
         Is possible to change the state by using the tools on the right. <br>
         The chart shows the density of the maximum and minimum temperature for each year and the legend will show the color for each variable. <br>
+        For the density is used the kernel density estimation with the Epanechnikov kernel. <br>
     `
 
     let rendered = false;
@@ -140,7 +141,7 @@
         setup_chart(options);
     }
 
-    function line_chart(data, state, years_array) {1
+    function line_chart(data, state, years_array) {
 
         let margin = {top: 150, right: 100, bottom: 30, left: 100};
         let width = 1500 - margin.left - margin.right;
@@ -434,7 +435,7 @@
 
     function polar_chart(data, state, years_array) {
 
-        let margin = {top: 200, right: 100, bottom: 200, left: 100};
+        let margin = {top: 225, right: 100, bottom: 200, left: 100};
         let width = 375 - margin.left - margin.right;
         let height = 200 - margin.top - margin.bottom;
 
@@ -456,7 +457,7 @@
             all_year.push(year);
         });
         let r = d3.scaleLinear()
-            .domain([d3.min(months, (d) => d3.min(all_year, (y) => data[state][y][d].min)), d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))])
+            .domain([d3.min(months, (d) => d3.min(all_year, (y) => data[state][y][d].min)), d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max + 10))])
             .range([0, width / 2.5]);
         
         let t = d3.scaleLinear()
@@ -482,8 +483,8 @@
             .append("line")
                 .attr("x1", 0)
                 .attr("y1", 0)
-                .attr("x2", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))) * Math.cos(t(i) - Math.PI / 2))
-                .attr("y2", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))) * Math.sin(t(i) - Math.PI / 2))
+                .attr("x2", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max + 10))) * Math.cos(t(i) - Math.PI / 2))
+                .attr("y2", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max + 10))) * Math.sin(t(i) - Math.PI / 2))
                 .attr("stroke", "wheat")
                 .attr("stroke-width", 0.5);
 
@@ -493,8 +494,8 @@
             .data(months)
             .enter()
             .append("text")
-                .attr("x", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))) * Math.cos(t(i) - Math.PI / 2))
-                .attr("y", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max))) * Math.sin(t(i) - Math.PI / 2))
+                .attr("x", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max + 10))) * Math.cos(t(i) - Math.PI / 2))
+                .attr("y", (d, i) => r(d3.max(months, (d) => d3.max(all_year, (y) => data[state][y][d].max + 10))) * Math.sin(t(i) - Math.PI / 2))
                 .text((d) => d.toUpperCase())
                 .style("font-size", "6px")
                 .attr("alignment-baseline","middle")
@@ -588,13 +589,13 @@
             for (let year of years_array) {
                 polar.append("circle")
                     .attr("cx", width - 40)
-                    .attr("cy", years_array.indexOf(year) * 10)
+                    .attr("cy", -100 + years_array.indexOf(year) * 10)
                     .attr("r", 3)
                     .style("fill", color(year));
                 
                 polar.append("text")
                     .attr("x", width - 35)
-                    .attr("y", 2 + years_array.indexOf(year) * 10)
+                    .attr("y", -100 + 2 + years_array.indexOf(year) * 10)
                     .text(year)
                     .style("font-size", "5px")
                     .attr("alignment-baseline","middle")
@@ -605,13 +606,13 @@
         } else {
             polar.append("circle")
                 .attr("cx", width - 40)
-                .attr("cy", 0)
+                .attr("cy", -100)
                 .attr("r", 3)
                 .style("fill", "red");
             
             polar.append("text")
                 .attr("x", width - 35)
-                .attr("y", 2)
+                .attr("y", -98)
                 .text("Max")
                 .style("font-size", "5px")
                 .attr("alignment-baseline","middle")
@@ -619,13 +620,13 @@
 
             polar.append("circle")
                 .attr("cx", width - 40)
-                .attr("cy", 10)
+                .attr("cy", -90)
                 .attr("r", 3)
                 .style("fill", "blue");
             
             polar.append("text")
                 .attr("x", width - 35)
-                .attr("y", 12)
+                .attr("y", -88)
                 .text("Min")
                 .style("font-size", "5px")
                 .attr("alignment-baseline","middle")
@@ -633,13 +634,13 @@
 
             polar.append("circle")
                 .attr("cx", width - 40)
-                .attr("cy", 20)
+                .attr("cy", -80)
                 .attr("r", 3)
                 .style("fill", "white");
             
             polar.append("text")
                 .attr("x", width - 35)
-                .attr("y", 22)
+                .attr("y", -78)
                 .text("Avg")
                 .style("font-size", "5px")
                 .attr("alignment-baseline","middle")
@@ -649,8 +650,8 @@
 
         //add title
         polar.append("text")
-            .attr("x", -width / 2 - 20)
-            .attr("y", -height / 2 - margin.top)
+            .attr("x", 0 )
+            .attr("y", -100)
             .text(`Temperature in ${state} from ${years_array[0]} to ${years_array[years_array.length - 1]}`)
             .style("font-size", "6px")
             .attr("text-anchor", "middle")
@@ -701,7 +702,7 @@
             .range([margin.left, width]);
 
         const y = d3.scaleLinear()
-            .domain([0, 0.4])
+            .domain([0, 0.5])
             .range([height, 0]);
         
         const yName = d3.scaleBand()
@@ -720,7 +721,9 @@
             .style("color", "wheat")
             .attr("transform", `translate(0, ${height + margin.top})`)
             .attr("transform", `translate(0, ${height + margin.top})`)
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+                .text((d) => d + "°F");
 
         //increase font size
         svg.selectAll("text")
@@ -797,7 +800,7 @@
         svg.append("text")
             .attr("x", width / 2 + margin.left)
             .attr("y", margin.top - 30)
-            .text(`Temperature in ${state} from ${years[0]} to ${years[years.length - 1]}`)
+            .text(`Temperature density in ${state} from ${years[0]} to ${years[years.length - 1]}`)
             .style("font-size", "38px")
             .attr("text-anchor", "middle")
             .style("fill", "wheat");
