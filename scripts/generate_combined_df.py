@@ -26,6 +26,7 @@ df = concat(df_list, axis=0).drop_duplicates()
 # df.to_csv('../data/full_dataset.csv', index=False)
 
 ## For fourth assignment ##
-selected_columns = ['scientific_name', 'common_name', 'city', 'state', 'loongitude_coordinate', 'latitude_coordinate','neighborhood']
+selected_columns = ['scientific_name', 'common_name', 'city', 'state', 'longitude_coordinate', 'latitude_coordinate','neighborhood']
+df = df[selected_columns]
 
-df.info()
+df.to_csv('../data/tree/full_dataset.csv', index=False)
