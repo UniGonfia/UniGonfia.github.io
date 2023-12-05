@@ -41,24 +41,28 @@
 
     let line_description = `
         This chart shows the temperature in a state for a number of years.
-        Is possible to change the state and the number of decades to consider for the comparison with the 2020, up to 10 year <br> <br>
-        If is chosen only one year, the chart will show the maximum, minimum and average temperature for each month and the legend will show the color for each variable. <br>
-        If are chosen more than one year, the chart will show the average temperature for each month and the legend will show the color for each year. <br>
-        There is an interaction with the mouse, if the mouse is over a point, the chart will show the temperature for each variable and the year. <br>
+        Is possible to change the state and the number of decades to consider for the comparison with the 2020, up to 10 decade <br> <br>
+        It is interesting to see how temperatures change over the years. For this reason, a 10-year jump was chosen in order to note more clearly the difference between the years. <br>
+        If is chosen only one decade, the chart will show the maximum, minimum and average temperature for each month and the legend will show the color for each variable. <br> <br>
+        If are chosen more than one decade, the chart will show the average temperature for each month and the legend will show the color for each decade. <br>
+        There is an interaction with the mouse, if the mouse is over a point, the chart will show the temperature for each variable and the decade. <br>
+        This interaction was added to show how much of an overhang there is between the maximum and minimum for each year.
     `
 
     let polar_description = `
-        This chart shows the temperature in a state for a number of years like the previous chart, but in a radar chart. <br>
-        Is possible to change the state and the number of decades to consider for the comparison with the 2020, up to 10 year <br> <br>
-        If is chosen only one year, the chart will show the maximum, minimum and average temperature for each month and the legend will show the color for each variable. <br>
-        If are chosen more than one year, the chart will show the average temperature for each month and the legend will show the color for each year. <br>
+        This chart shows the temperature in a state for a number of decades like the previous chart, but in a radar chart. <br>
+        Is possible to change the state and the number of decades to consider for the comparison with the 2020, up to 10 decade <br> <br>
+        If is chosen only one decade, the chart will show the maximum, minimum and average temperature for each month and the legend will show the color for each variable. <br>
+        If are chosen more than one decade, the chart will show the average temperature for each month and the legend will show the color for each decade. <br> <br>
+        It is interesting to use a radar chart as one can better see the 'shape' of the temperatures, in fact it is very noticeable that for the older years there tends to be less of a fluctuation while for the newer ones there is more of a tendency to fluctuation.
     `
 
     let ridge_description = `
-        This chart shows the density of the temperature in a state for 10 years. <br>
-        Is possible to change the state by using the tools on the right. <br>
-        The chart shows the density of the maximum and minimum temperature for each year and the legend will show the color for each variable. <br>
-        For the density is used the kernel density estimation with the Epanechnikov kernel. <br>
+        This chart shows the density of the temperature in a state for 10 decade. <br>
+        Is possible to change the state by using the tools on the right. <br> <br>
+        The chart shows the density of the maximum and minimum temperature for each decade and the legend will show the color for each variable. <br>
+        For the density is used the kernel density estimation with the Epanechnikov kernel. <br> <br>
+        This is the graph I find most interesting for analysing temperature changes, because for recent years we have greater dispersion and temperatures that tend to be higher, while for older years we have temperatures with less dispersion and tend to be colder.
     `
 
     let rendered = false;
@@ -878,7 +882,7 @@
         <label for="states"> State: </label>
         <select on:change={options_change} id="states"></select>
 
-        <label for="year" id="yearlabel"> Number of years: {n_year} </label>
+        <label for="year" id="yearlabel"> Number of decades: {n_year} </label>
         <input on:change={options_change} type="range" id="year" min="1" max="10" step="1" value="1">
         
         <p id="description" class="description">
@@ -954,12 +958,12 @@
 
     .chart {
         display: flex;
-        width: 70%;
+        width: 67%;
         height: 80%;
     }
 
     .tools {
-        width: 20%;
+        width: 23%;
         height: 60%;
         display: flex;
         flex-direction: column;
