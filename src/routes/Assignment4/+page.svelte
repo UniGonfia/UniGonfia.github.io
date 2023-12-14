@@ -14,9 +14,9 @@
             .attr('width', width)
             .attr('height', height);
 
-        const projection = d3.geoMercator()
-            .scale(500)
-            .translate([width / 4, height / 4]);
+        const projection = d3.geoNaturalEarth1()
+            .scale(width / 1.3 / Math.PI)
+            .translate([width / 2, height / 2])
 
         const path = d3.geoPath()
             .projection(projection);
@@ -41,7 +41,6 @@
             });
 
         var data = data_file;
-        // cancel random point mantain the 10%
         
 
         g.selectAll('circle')
