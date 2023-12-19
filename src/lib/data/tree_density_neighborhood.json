@@ -1,0 +1,1580 @@
+[
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "106 - ecco",
+    "num_trees": 820
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "419 - prospect park - east river road",
+    "num_trees": 2854
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "412 - st. anthony east",
+    "num_trees": 219
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "108 - east harriet",
+    "num_trees": 2130
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "109 - lynnhurst",
+    "num_trees": 4141
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "103 - lowry hill",
+    "num_trees": 2369
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "113 - linden hills",
+    "num_trees": 5796
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "101 - cedar-isles-dean",
+    "num_trees": 1162
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "102 - kenwood",
+    "num_trees": 1230
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "112 - fulton",
+    "num_trees": 4440
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "114 - west calhoun",
+    "num_trees": 205
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "107 - carag",
+    "num_trees": 2059
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "111 - armatage",
+    "num_trees": 4170
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "110 - kenny",
+    "num_trees": 2847
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "104 - lowry hill east",
+    "num_trees": 1923
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "105 - east isles",
+    "num_trees": 1446
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "301 - shingle creek",
+    "num_trees": 1926
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "201 - seward",
+    "num_trees": 3748
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "304 - victory",
+    "num_trees": 3194
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "504 - king field",
+    "num_trees": 4475
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "207 - morris park",
+    "num_trees": 1885
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "205 - hiawatha",
+    "num_trees": 4152
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "208 - wenonah",
+    "num_trees": 2325
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "212 - corcoran",
+    "num_trees": 1796
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "202 - cooper",
+    "num_trees": 2481
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "209 - keewaydin",
+    "num_trees": 2104
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "206 - minnehaha",
+    "num_trees": 4651
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "210 - ericsson",
+    "num_trees": 1741
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "204 - howe",
+    "num_trees": 4239
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "203 - longfellow",
+    "num_trees": 3124
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "514 - bancroft",
+    "num_trees": 1715
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "211 - standish",
+    "num_trees": 3651
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "516 - powderhorn park",
+    "num_trees": 5979
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "517 - midtown phillips",
+    "num_trees": 1352
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "418 - university of minnesota",
+    "num_trees": 113
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "520 - east phillips",
+    "num_trees": 1712
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "318 - loring park",
+    "num_trees": 1513
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "307 - webber - camden",
+    "num_trees": 2230
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "302 - lind-bohanon",
+    "num_trees": 2959
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "306 - folwell",
+    "num_trees": 2934
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "317 - bryn-mawr",
+    "num_trees": 2562
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "316 - harrison",
+    "num_trees": 1245
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "413 - beltrami",
+    "num_trees": 566
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "313 - willard - hay",
+    "num_trees": 4131
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "314 - near-north",
+    "num_trees": 2954
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "305 - cleveland",
+    "num_trees": 2090
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "308 - mckinley",
+    "num_trees": 1723
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "311 - hawthorne",
+    "num_trees": 2307
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "320 - north loop",
+    "num_trees": 652
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "319 - downtown west",
+    "num_trees": 1184
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "312 - jordan",
+    "num_trees": 3327
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "415 - nicollet island - east bank",
+    "num_trees": 450
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "509 - hale",
+    "num_trees": 2275
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "416 - marcy holmes",
+    "num_trees": 2532
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "404 - audubon park",
+    "num_trees": 3333
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "417 - como",
+    "num_trees": 2306
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "407 - windom park",
+    "num_trees": 3253
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "403 - waite park",
+    "num_trees": 4121
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "409 - logan park",
+    "num_trees": 1019
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "408 - sheridan",
+    "num_trees": 1123
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "405 - bottineau",
+    "num_trees": 725
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "401 - marshall terrace",
+    "num_trees": 601
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "410 - northeast park",
+    "num_trees": 1913
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "421 - elliot park",
+    "num_trees": 798
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "414 - mid-city industrial",
+    "num_trees": 545
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "420 - cedar riverside",
+    "num_trees": 1033
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "406 - holland",
+    "num_trees": 415
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "402 - columbia",
+    "num_trees": 1859
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "411 - st. anthony west",
+    "num_trees": 95
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "505 - tangletown",
+    "num_trees": 3107
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "503 - lyndale",
+    "num_trees": 2006
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "501 - steven's square-loring heights",
+    "num_trees": 565
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "502 - whittier",
+    "num_trees": 4146
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "506 - windom",
+    "num_trees": 1991
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "512 - northrop",
+    "num_trees": 3370
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "518 - ventura village",
+    "num_trees": 1342
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "507 - diamond lake",
+    "num_trees": 3969
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "519 - phillips west",
+    "num_trees": 1177
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "511 - regina",
+    "num_trees": 2764
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "510 - field",
+    "num_trees": 2294
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "508 - page",
+    "num_trees": 1043
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "515 - central",
+    "num_trees": 3380
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "513 - bryant",
+    "num_trees": 1759
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "303 - humboldt industrial area",
+    "num_trees": 109
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "422 - downtown east",
+    "num_trees": 391
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "315 - sumner - glenwood",
+    "num_trees": 97
+  },
+  {
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "neighborhood": "309 - camden industrial",
+    "num_trees": 9
+  },
+  {
+    "city": "Durham",
+    "state": "North Carolina",
+    "neighborhood": "Old east durham",
+    "num_trees": 1950
+  },
+  {
+    "city": "Durham",
+    "state": "North Carolina",
+    "neighborhood": "Downtown",
+    "num_trees": 2268
+  },
+  {
+    "city": "Durham",
+    "state": "North Carolina",
+    "neighborhood": "Southside/ college view",
+    "num_trees": 588
+  },
+  {
+    "city": "Durham",
+    "state": "North Carolina",
+    "neighborhood": "Old west durham",
+    "num_trees": 1139
+  },
+  {
+    "city": "Durham",
+    "state": "North Carolina",
+    "neighborhood": "Walltown",
+    "num_trees": 2422
+  },
+  {
+    "city": "Durham",
+    "state": "North Carolina",
+    "neighborhood": "Lyon park",
+    "num_trees": 218
+  },
+  {
+    "city": "Durham",
+    "state": "North Carolina",
+    "neighborhood": "Weaver",
+    "num_trees": 101
+  },
+  {
+    "city": "Durham",
+    "state": "North Carolina",
+    "neighborhood": "Stratford lakes",
+    "num_trees": 161
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "South park hill",
+    "num_trees": 7894
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Hilltop",
+    "num_trees": 7070
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "East colfax",
+    "num_trees": 2881
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "University hills",
+    "num_trees": 2432
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "North park hill",
+    "num_trees": 5556
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Gateway - green valley ranch",
+    "num_trees": 17450
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "University park",
+    "num_trees": 4898
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Lowry field",
+    "num_trees": 8196
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Northeast park hill",
+    "num_trees": 2191
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Montbello",
+    "num_trees": 4958
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Sloan lake",
+    "num_trees": 5260
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Virginia village",
+    "num_trees": 3883
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Cherry creek",
+    "num_trees": 4485
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Montclair",
+    "num_trees": 4430
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Ruby hill",
+    "num_trees": 2581
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Goldsmith",
+    "num_trees": 445
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Stapleton",
+    "num_trees": 21028
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Cbd",
+    "num_trees": 1350
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Washington virginia vale",
+    "num_trees": 3880
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Union station",
+    "num_trees": 1991
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Highland",
+    "num_trees": 4752
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Clayton",
+    "num_trees": 2184
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Platt park",
+    "num_trees": 3971
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Indian creek",
+    "num_trees": 3290
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Hampden",
+    "num_trees": 4579
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Washington park",
+    "num_trees": 7769
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Harvey park",
+    "num_trees": 1621
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Congress park",
+    "num_trees": 5537
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Speer",
+    "num_trees": 4466
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "City park",
+    "num_trees": 7683
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Regis",
+    "num_trees": 3461
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Belcaro",
+    "num_trees": 3394
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "University",
+    "num_trees": 3260
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Barnum west",
+    "num_trees": 1328
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Washington park west",
+    "num_trees": 3819
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "West highland",
+    "num_trees": 5193
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Cory - merrill",
+    "num_trees": 2439
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Country club",
+    "num_trees": 3359
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Five points",
+    "num_trees": 5049
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "West colfax",
+    "num_trees": 2771
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Baker",
+    "num_trees": 2853
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Fort logan",
+    "num_trees": 2879
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Whittier",
+    "num_trees": 3027
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Jefferson park",
+    "num_trees": 1955
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Sunnyside",
+    "num_trees": 4769
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Hale",
+    "num_trees": 3653
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Berkeley",
+    "num_trees": 5946
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Capitol hill",
+    "num_trees": 2950
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Windsor",
+    "num_trees": 1530
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Athmar park",
+    "num_trees": 2465
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Wellshire",
+    "num_trees": 2614
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Dia",
+    "num_trees": 1218
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Mar lee",
+    "num_trees": 2016
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "North capitol hill",
+    "num_trees": 1334
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Southmoor park",
+    "num_trees": 1274
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "City park west",
+    "num_trees": 2318
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Overland",
+    "num_trees": 2507
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Skyland",
+    "num_trees": 2167
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Marston",
+    "num_trees": 2773
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Hampden south",
+    "num_trees": 4672
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Valverde",
+    "num_trees": 1301
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Westwood",
+    "num_trees": 2536
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Cole",
+    "num_trees": 1969
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Lincoln park",
+    "num_trees": 2876
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Cheesman park",
+    "num_trees": 3226
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Globeville",
+    "num_trees": 1461
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Villa park",
+    "num_trees": 2165
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Kennedy",
+    "num_trees": 2078
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Barnum",
+    "num_trees": 2159
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Harvey park south",
+    "num_trees": 1171
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Bear valley",
+    "num_trees": 1442
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Civic center",
+    "num_trees": 1448
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Elyria swansea",
+    "num_trees": 1832
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Chaffee park",
+    "num_trees": 1330
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Rosedale",
+    "num_trees": 1899
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "College view - south platte",
+    "num_trees": 970
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Sun valley",
+    "num_trees": 867
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Auraria",
+    "num_trees": 1240
+  },
+  {
+    "city": "Denver",
+    "state": "Colorado",
+    "neighborhood": "Unassigned",
+    "num_trees": 5125
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Homewood north",
+    "num_trees": 403
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Oakwood",
+    "num_trees": 92
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "South side flats",
+    "num_trees": 1693
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "East allegheny",
+    "num_trees": 391
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Highland park",
+    "num_trees": 2941
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Stanton heights",
+    "num_trees": 700
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Sheraden",
+    "num_trees": 392
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Chartiers city",
+    "num_trees": 37
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Elliott",
+    "num_trees": 171
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Morningside",
+    "num_trees": 461
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Bloomfield",
+    "num_trees": 1436
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Friendship",
+    "num_trees": 362
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Garfield",
+    "num_trees": 626
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Polish hill",
+    "num_trees": 271
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Lower lawrenceville",
+    "num_trees": 508
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Central northside",
+    "num_trees": 674
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "East liberty",
+    "num_trees": 1366
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Central lawrenceville",
+    "num_trees": 713
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Shadyside",
+    "num_trees": 1558
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Allegheny center",
+    "num_trees": 867
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Homewood south",
+    "num_trees": 459
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Point breeze north",
+    "num_trees": 565
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "East hills",
+    "num_trees": 483
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Homewood west",
+    "num_trees": 92
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Greenfield",
+    "num_trees": 745
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Hazelwood",
+    "num_trees": 652
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Squirrel hill south",
+    "num_trees": 5073
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Marshall-shadeland",
+    "num_trees": 488
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Brighton heights",
+    "num_trees": 910
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "North shore",
+    "num_trees": 457
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Overbrook",
+    "num_trees": 275
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Knoxville",
+    "num_trees": 431
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Brookline",
+    "num_trees": 853
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "South side slopes",
+    "num_trees": 233
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Arlington",
+    "num_trees": 107
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Arlington heights",
+    "num_trees": 5
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Carrick",
+    "num_trees": 772
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Bedford dwellings",
+    "num_trees": 198
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Central business district",
+    "num_trees": 1002
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Bluff",
+    "num_trees": 222
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "West oakland",
+    "num_trees": 78
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "South oakland",
+    "num_trees": 234
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Squirrel hill north",
+    "num_trees": 2079
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Point breeze",
+    "num_trees": 1316
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Lincoln-lemington-belmar",
+    "num_trees": 525
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Bon air",
+    "num_trees": 92
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Mount washington",
+    "num_trees": 874
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "California-kirkbride",
+    "num_trees": 94
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "New homestead",
+    "num_trees": 183
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Central oakland",
+    "num_trees": 368
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Crafton heights",
+    "num_trees": 368
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Beechview",
+    "num_trees": 611
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Manchester",
+    "num_trees": 707
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Allentown",
+    "num_trees": 84
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Beltzhoover",
+    "num_trees": 170
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Allegheny west",
+    "num_trees": 386
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Chateau",
+    "num_trees": 276
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Duquesne heights",
+    "num_trees": 101
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Perry north",
+    "num_trees": 1007
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Perry south",
+    "num_trees": 367
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Middle hill",
+    "num_trees": 341
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Troy hill",
+    "num_trees": 217
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Terrace village",
+    "num_trees": 261
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Upper hill",
+    "num_trees": 179
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "North oakland",
+    "num_trees": 775
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Fineview",
+    "num_trees": 90
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Strip district",
+    "num_trees": 486
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Windgap",
+    "num_trees": 117
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Crawford-roberts",
+    "num_trees": 568
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Larimer",
+    "num_trees": 306
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Lincoln place",
+    "num_trees": 263
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Regent square",
+    "num_trees": 434
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Banksville",
+    "num_trees": 437
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Swisshelm park",
+    "num_trees": 245
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Spring garden",
+    "num_trees": 55
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Spring hill-city view",
+    "num_trees": 114
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Fairywood",
+    "num_trees": 31
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Summer hill",
+    "num_trees": 79
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "West end",
+    "num_trees": 131
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Upper lawrenceville",
+    "num_trees": 373
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Ridgemont",
+    "num_trees": 31
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Esplen",
+    "num_trees": 3
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "East carnegie",
+    "num_trees": 8
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "South shore",
+    "num_trees": 2
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "St. clair",
+    "num_trees": 12
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Mt. oliver",
+    "num_trees": 13
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Northview heights",
+    "num_trees": 6
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Glen hazel",
+    "num_trees": 2
+  },
+  {
+    "city": "Pittsburgh",
+    "state": "Pennsylvania",
+    "neighborhood": "Hays",
+    "num_trees": 1
+  }
+]
