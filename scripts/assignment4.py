@@ -152,22 +152,20 @@ with open('../src/lib/data/tree_density_species.json', 'w') as json_file:
 
 df = pd.read_csv('../data/tree/full_dataset.csv', low_memory=False)
 
-# Desnity for neighborhood
-df_lat_lon = df[['city', 'state', 'neighborhood']]
+# Desnity for state
+df_lat_lon = df[['city', 'state',]]
 df_lat_lon = df_lat_lon.dropna()
 
 # Create an empty list to store results
 results = []
 
-for neighborhood in df_lat_lon['neighborhood'].unique():
+for state in df_lat_lon['state'].unique():
    results.append({
-       'city': df_lat_lon[df_lat_lon['neighborhood'] == neighborhood]['city'].iloc[0],
-        'state': df_lat_lon[df_lat_lon['neighborhood'] == neighborhood]['state'].iloc[0],
-       'neighborhood': neighborhood,
-       'num_trees': len(df_lat_lon[df_lat_lon['neighborhood'] == neighborhood])
+       'state': state,
+       'num_trees': len(df_lat_lon[df_lat_lon['state'] == state])
    })
    
             
 # Save results to a JSON file
-with open('../src/lib/data/tree_density_neighborhood.json', 'w') as json_file:
+with open('../src/lib/data/tree_density_state.json', 'w') as json_file:
     json.dump(results, json_file, indent=2)

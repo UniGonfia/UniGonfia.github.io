@@ -1,53 +1,90 @@
 <script>
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
-    import * as d3_geo from 'd3-geo-projection';
     import data from '$lib/data/tree_density.json'
+    import 'iconify-icon'
+    import mapdata from '$lib/data/choropleth.json'
 
-    /*
-    The data:
-        {
-            "state": "Texas",
-            "num_points": 10,
-            "middle_point": {
-                "longitude": -91.18689123500002,
-                "latitude": 37.63236978
-            }
+    function left_btn() {
         
-    ...
+        //create animation to move map to the left and appear on the right
+        let svg = d3.select("svg");
+        //clean
+        svg.selectAll("circle").remove();
+        svg.selectAll("path").remove();
+        svg.selectAll("g").remove();
+        svg.selectAll("text").remove();
+        svg.selectAll("rect").remove();
+        svg.selectAll("line").remove();
+        svg.selectAll("polygon").remove();
+        
+        createMap()
 
-    */
+        const svgdiv = document.querySelector("svg");
+        svgdiv.classList.add("moveLeft");
+
+        svgdiv.addEventListener("animationend", () => {
+            svgdiv.classList.remove("moveLeft");
+        });
+
+    }
+
+    function right_btn() {
+        //create animation to move map to the right and appear on the left
+        let svg = d3.select("svg");
+        //clean
+        svg.selectAll("circle").remove();
+        svg.selectAll("path").remove();
+        svg.selectAll("g").remove();
+        svg.selectAll("text").remove();
+        svg.selectAll("rect").remove();
+        svg.selectAll("line").remove();
+        svg.selectAll("polygon").remove();
+        
+        createMap()
+
+        const svgdiv = document.querySelector("svg");
+        svgdiv.classList.add("moveRight");
+
+        svgdiv.addEventListener("animationend", () => {
+            svgdiv.classList.remove("moveRight");
+        });
+    }
+
+    function createMap() {
+        // The svg
+        const svg = d3.select("svg");
+        const width = document.querySelector("svg").getBoundingClientRect().width;
+        const height = document.querySelector("svg").getBoundingClientRect().height;
+
+        // Map and projection
+        const projection = d3.geoAlbersUsa()
+            .translate([width/2, height/2])
+            .scale([1000])
+        
+        let path = d3.geoPath().projection(projection);
+        
+        let world = svg.append("g");
+        const data_features = topojson.feature(mapdata, mapdata.objects.states).features;
+        world.selectAll(".states")
+            .data(data_features)
+            .enter().append("path")
+            .attr("data-name", function(d) { return d.properties.name }) 
+            .attr("d", path)
+            .style("stroke", "black")
+            .attr("class", "Country")
+            .attr("id", function(d) { return d.id })
+            .style("opacity", 1)
+            .style("fill", "white")
+
+        return projection
+    }
 
     onMount(async () => {
        // The svg
-        const svg = d3.select("svg"),
-            width = +svg.attr("width"),
-            height = +svg.attr("height");
+        const svg = d3.select("svg");     
 
-        // Map and projection
-        const projection = d3.geoMercator()
-            .center([-103.77156, 44.967243])                // GPS of location to zoom on
-            .scale(300)                       // This is like the zoom
-            .translate([ width/2, height/2 ])
-
-        // Load external data and boot
-        await d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then( function(data){
-
-            // Filter data
-            data.features = data.features.filter(d => {console.log(d.properties.name); return d.properties.name=="USA"})
-
-            // Draw the map
-            svg.append("g")
-                .selectAll("path")
-                .data(data.features)
-                .join("path")
-                .attr("fill", "grey")
-                .attr("d", d3.geoPath()
-                    .projection(projection)
-                )
-                .style("stroke", "none")
-        })
-
+        const projection = createMap()
 
         const radius = d3.scaleSqrt()
             .domain([0, 100000])
@@ -75,24 +112,113 @@
 </script>
 <div class="assignment4">
 <!-- Create an element where the map will take place -->
-<svg id="my_dataviz" width="1000" height="800"></svg>
+
+<div class="Panel"> <button class="buttonleft" on:click={left_btn}> <iconify-icon class="icon" icon="typcn:arrow-up-outline" width="100%" /> </button> </div>
+<svg id="map_graph" width="900" height="900"></svg>
+<div class="Panel"><button class="buttonright" on:click={right_btn}> <iconify-icon class="icon" icon="typcn:arrow-up-outline" width="100%" /> </button> </div>
+
+<div class="moveLeft moveRight" style="display: none;"></div>
+
 </div>
 <style>
 
 .assignment4 {
-    background-color: black;
-    width: 100%;
+    background-color: #364e51;
+    width: 100vw;
     height: 100vh;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+button {
+    position: relative;
+    width: 5rem;
+    height: 5rem;
+    background-color: transparent;
+    border: 0;
+}
+
+.buttonleft {
+    left: 0;
+    transform: rotate(-90deg);
+}
+
+.buttonright {
+    right: 0;
+    transform: rotate(90deg);
+}
+
+.Panel {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    width: 10%;
+    height: 100%;
+    background-color: #364e51;
+    z-index: 50;
 }
 
 svg {
-    width: 1000px;
-    height: 800px;
+
     display: block;
     margin-inline: auto;
-    margin-block: auto;
-    z-index: 0;
+    width: 80%;
+    height: 100%;
+}
+
+.icon {
+    background-color: wheat;
+    border: 3px solid black;
+    border-radius: 50%;
+}
+
+.moveLeft {
+    animation: moveLeft 2s ease-out;
+}
+
+.moveRight {
+    animation: moveRight 2s ease-out;
+}
+
+@keyframes moveLeft {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    51% {
+        transform: translateX(200%);
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes moveRight {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    51% {
+        transform: translateX(-200%);
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 </style>

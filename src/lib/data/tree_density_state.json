@@ -1,0 +1,134 @@
+[
+  {
+    "state": "Louisiana",
+    "num_trees": 671
+  },
+  {
+    "state": "New York",
+    "num_trees": 881335
+  },
+  {
+    "state": "Iowa",
+    "num_trees": 18037
+  },
+  {
+    "state": "Texas",
+    "num_trees": 266332
+  },
+  {
+    "state": "Massachusetts",
+    "num_trees": 1655
+  },
+  {
+    "state": "California",
+    "num_trees": 1780815
+  },
+  {
+    "state": "Minnesota",
+    "num_trees": 190897
+  },
+  {
+    "state": "South Dakota",
+    "num_trees": 63146
+  },
+  {
+    "state": "Indiana",
+    "num_trees": 901
+  },
+  {
+    "state": "Virginia",
+    "num_trees": 3352
+  },
+  {
+    "state": "Colorado",
+    "num_trees": 368472
+  },
+  {
+    "state": "Oregon",
+    "num_trees": 218351
+  },
+  {
+    "state": "New Jersey",
+    "num_trees": 806
+  },
+  {
+    "state": "Hawaii",
+    "num_trees": 15393
+  },
+  {
+    "state": "Georgia",
+    "num_trees": 42080
+  },
+  {
+    "state": "Florida",
+    "num_trees": 60242
+  },
+  {
+    "state": "North Carolina",
+    "num_trees": 23112
+  },
+  {
+    "state": "Kansas",
+    "num_trees": 45287
+  },
+  {
+    "state": "New Mexico",
+    "num_trees": 2596
+  },
+  {
+    "state": "District of Columbia",
+    "num_trees": 191047
+  },
+  {
+    "state": "Tennessee",
+    "num_trees": 10524
+  },
+  {
+    "state": "Oklahoma",
+    "num_trees": 10095
+  },
+  {
+    "state": "Washington",
+    "num_trees": 165887
+  },
+  {
+    "state": "Nevada",
+    "num_trees": 39307
+  },
+  {
+    "state": "Wisconsin",
+    "num_trees": 129188
+  },
+  {
+    "state": "Rhode Island",
+    "num_trees": 22174
+  },
+  {
+    "state": "Michigan",
+    "num_trees": 21895
+  },
+  {
+    "state": "Missouri",
+    "num_trees": 83813
+  },
+  {
+    "state": "Pennsylvania",
+    "num_trees": 45925
+  },
+  {
+    "state": "Ohio",
+    "num_trees": 152182
+  },
+  {
+    "state": "Arizona",
+    "num_trees": 267
+  },
+  {
+    "state": "Maryland",
+    "num_trees": 121625
+  },
+  {
+    "state": "Kentucky",
+    "num_trees": 32925
+  }
+]
