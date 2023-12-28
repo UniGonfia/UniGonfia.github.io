@@ -10,20 +10,41 @@
 
     let position = 0;
 
-
     function position_switch() {
         if (position == 0) {
             tree_density()
+            document.querySelector(".description").innerHTML = description_tree_density
         }
 
         if (position == 1) {
             top_tree_density()
+            document.querySelector(".description").innerHTML = description_tree_density_10
         }
 
         if (position == -1) {
             state_density()
+            document.querySelector(".description").innerHTML = description_state_density
         }
     }
+
+    let description_tree_density = `
+        Here we can see a map depicting the distribution of trees in the United States. 
+        Larger dots have been chosen to represent the greater presence of trees in that area, obviously we can see 
+        that in desert areas there are fewer trees while in more favourable areas there are more trees.
+    `
+
+    let description_tree_density_10 = `
+        In this graph we can see the distribution of trees in the United States with one more piece of information, 
+        namely the distribution of the top 10 tree species. The position is the same as in the previous graph but we 
+        can also see the distribution of the species, in warmer areas we have Gleditsia triacanthos and Lagerstroemia 
+        indica while in colder areas we have Platanus acerifolia.
+    `
+
+    let description_state_density = `
+        In this graph, however, we no longer focus on the exact position of the trees but on the density for each state. 
+        In particular, California and New York state jump out at you; by hovering the mouse over the state, you can see 
+        the exact amount of trees.
+    `
 
     async function left_btn() {
 
@@ -58,11 +79,35 @@
             position_switch()
         }, { once: true});
 
+
+
         if (position < 1) {
             position += 1;
         } else {
             position = -1;
         }
+
+        let description = document.querySelector(".description");
+        description.classList.add("opacityDescription");
+        
+        description.addEventListener("animationend", () => {
+            description.classList.remove("opacityDescription");
+        }, { once: true});
+
+        description.addEventListener("animationstart", async () => {
+            
+            if (position == 0) {
+                description.innerHTML = description_tree_density
+            }
+
+            if (position == 1) {
+                description.innerHTML = description_tree_density_10
+            }
+
+            if (position == -1) {
+                description.innerHTML = description_state_density
+            }
+        }, { once: true})
 
     }
 
@@ -103,6 +148,29 @@
         } else {
             position = 1;
         }
+
+        let description = document.querySelector(".description");
+        description.classList.add("opacityDescription");
+        
+        description.addEventListener("animationend", () => {
+            description.classList.remove("opacityDescription");
+        }, { once: true});
+
+        description.addEventListener("animationstart", async () => {
+            //wait 1s
+
+            if (position == 0) {
+                description.innerHTML = description_tree_density
+            }
+
+            if (position == 1) {
+                description.innerHTML = description_tree_density_10
+            }
+
+            if (position == -1) {
+                description.innerHTML = description_state_density
+            }
+        }, { once: true})
     }
 
     function createMap() {
@@ -431,7 +499,7 @@
     <a href="/"> &#x2190 Home </a>
 </div>
 
-<p class="description"> ciao </p>
+<p class="description opacityDescription"> {description_tree_density} </p>
 
 <div class="assignment4">
 <!-- Create an element where the map will take place -->
@@ -509,11 +577,11 @@ svg {
 
 .description {
     position: absolute;
-    bottom: 10rem;
+    bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: wheat;
 }
 
@@ -561,6 +629,19 @@ svg {
     }
     100% {
         transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.opacityDescription {
+    animation: opacityDescription 3s ease-out;
+}
+
+@keyframes opacityDescription {
+    0% {
+        opacity: 0;
+    }
+    100% {
         opacity: 1;
     }
 }
